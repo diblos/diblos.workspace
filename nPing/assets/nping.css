@@ -1,0 +1,26 @@
+body{font-family:Verdana;}
+
+table{display:none}
+.FORMTABLE{border-collapse:collapse;}
+.FORMTABLE td{width=1000px;border:none 1px black;border-collapse:collapse;padding:3px;}
+#TRACKERTABLE{border:solid 1px black;border-collapse:collapse;}
+#TRACKERTABLE th,td{border:solid 1px black;}
+
+.tcounter{width:17px;text-align:right;padding-left:5px;padding-right:5px;font-size:smaller}
+.tserver{width:160px;}
+.tstatus{width:90px;}
+.tdesc{width:160px;}
+
+.inputCrowd{background:#99FFFF;padding-left:3px;}
+.inputConnected{background:#33FF66;}
+.inputDisconnected{background:#FF0000;}
+#display{font-size:smaller}
+.notes{font-weight:bold;border:none 0px black;font-size:10px;text-align:center;padding:6px;}
+
+.ui-dialog.my-dialog .ui-dialog-contain { margin-top: 0 }
+
+.listConnected{color:lime}
+.listDisconnected{color:red}
+
+#dServers li a i{float:right;}	
+#dServers li a span{valign:middle}	
