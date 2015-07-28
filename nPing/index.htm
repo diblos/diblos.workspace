@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -52,24 +52,22 @@
 						<li><a href="#" id="someButton" data-icon="plus">Add Server</a></li>
 						<li><a href="#" id="resetButton" data-icon="delete">Clear List</a></li>
 						<li><a href="#" id="Button1" data-icon="arrow-u-r">Manual Ping</a></li>
-						<li><a href="#" id="Button2" data-icon="refresh">Automatic Ping ON</a></li>
+						<li><a href="#" id="Button2" data-icon="refresh">Auto Ping ON</a></li>
 					</ul>
 				</div>
-    <h1 style="visibility:visible">
+    <h1 id="footerText">
 	<span style="position:relative;top:-12px;">any comments welcomed </span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-twitter fa-3x"></i></a>
 	</h1>
   </div>
 </div> 
   
 <div data-role="dialog" id="serverDialog" data-overlay-theme="a" class="my-dialog">
-<!-- <div data-role="header">
-<h2>Dialog</h2>
-</div> -->
+
 <div role="main" class="ui-content">
 <p>
 <label for="text-basic">Input server ip or domain:</label>
 <input name="text-server" id="text-server" value="" type="text">
-<a href="#" data-role="button" data-icon="plus" onclick="AddServer($('input#text-server').val());$('#serverDialog').dialog('close');">Add Server</a>
+<a id="btnAddServer" href="#" data-role="button" data-icon="plus">Add Server</a>
 </p>
 </div>
 </div>

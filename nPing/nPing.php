@@ -1,6 +1,4 @@
-﻿﻿<?php
-//header("Content-type: text/xml");
-
+<?php
 function ping($host, $port, $timeout) 
 { 
   $tB = microtime(true); 
@@ -25,52 +23,44 @@ function pingDomain($domain){
     }
     return $status;
 }
-
-function addHeader() {
-	header("Content-Type:text/xml");
-	header("Access-Control-Allow-Origin: *");
-	//header("Access-Control-Allow-Methods: GET, POST");	
-}
-
 $statistic = 0;
 $tmpPing="";
-$nPing="";
 //Echoing it will display the ping if the host is up, if not it'll say "down".
 $MyDomain = "183.171.232.66";
 
 if($_GET['ip']==""){$MyDomain = "183.171.232.66";}else{$MyDomain = $_GET['ip'];};
 
-$nPing = $nPing."<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
-$nPing = $nPing."<members>\n";
-$nPing = $nPing."<desc>\n";
+header("Content-type: aplication/json; charset=utf-8");
+//header("Content-type: text/plain; charset=utf-8");
+header("Access-Control-Allow-Origin: *");
 
-for ($x=0; $x<10; $x++)
+	echo "{\n";
+	echo "\"ip\":\"".$MyDomain."\",\n";
+	echo "\"description\":{\n";
+for ($x=1; $x<=10; $x++)
   {
-  //echo "Reply From ".$MyDomain." : time=".ping($MyDomain, 80, 10)." TTL=57\n";
-  //$tmpPing=ping($MyDomain, 80, 10);
-  $tmpPing=ping($MyDomain, 80, 1);
+
+  $tmpPing=@ping($MyDomain, 80, 1);
   if($tmpPing=="down")
   {
 	$statistic+=1;
-	$nPing = $nPing."Request timed out.\n";
+	echo "\"response".$x."\":\"Request timed out.\"".($x != 10 ? ",\n" : "");
   }else{
-	$nPing = $nPing."Reply From ".$MyDomain." : time=".$tmpPing.".\n";
+	echo "\"response".$x."\":\"Reply From ".$MyDomain." : time=".$tmpPing.".\"".($x != 10 ? ",\n" : "");
   }  
   } 
 
-$nPing = $nPing."</desc>\n";
-$nPing = $nPing."<summary>Ping statistics (".($statistic*100/10)."% loss)</summary>\n";
-$nPing = $nPing."<status>";
+	echo "},\n";	
+	echo "\"summary\":\"Ping statistics (".($statistic*100/10)."% loss)\",\n";
+	echo "\"status\":\"";
 
-if (pingDomain($MyDomain)==-1)
+if (@pingDomain($MyDomain)==-1)
   {
-  $nPing = $nPing."OFFLINE";
+	echo "OFFLINE";
   }else{
-  $nPing = $nPing."ONLINE";
+	echo "ONLINE";
   }
-$nPing = $nPing."</status>\n";
-$nPing = $nPing."</members>\n";
+	echo "\"\n";
+	echo "}";
 
-addHeader();
-echo $nPing;
 ?>
