@@ -10,7 +10,8 @@
     
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    
+    <script type="text/javascript" src="http://s.nakedmaya.com/jstorage.js"></script>	
+	
 	<link rel="icon" href="/favicon.png" />
 
 	<link href="assets/nping.css" rel="stylesheet">
@@ -18,77 +19,30 @@
 	<link href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" rel="stylesheet">
         
 <title>Remote Server Status</title>
-<!-- <title>Check your Servers</title> -->
+
   </head>
   <body>
   
   <div data-role="page" id="pageone" data-theme="a">
   
-   <div data-role="panel" id="revealPanel" data-display="reveal"> 
+	<div data-role="panel" id="revealPanel" data-display="reveal"> 
     <h2>Settings</h2>
 	 <form>	 
-	 <div class="ui-field-contain">	  
-	  <p>Ping Interval (Minute):</p>
-      <!-- <label for="points">Ping Interval (Minute):</label> -->
-      <input type="range" name="points" id="points" value="15" min="5" max="60" data-highlight="true">
-<!-- 	<label for="flip-2">Switch:</label>
-    <select name="flip-2" id="flip-2" data-role="slider" data-track-theme="a" data-theme="a">
-        <option value="off">Off</option>
-        <option value="on">On</option>
-    </select> -->
-	 </div>
-      <!-- <input type="submit" data-inline="true" value="Submit"> -->
-    </form>
-    <!-- <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p> -->
+		<div class="ui-field-contain">	  
+		<p>Ping Interval (Minute):</p>
+		<input type="range" name="points" id="points" value="15" min="5" max="60" data-highlight="true">
+		</div>    
+    </form>    
 	<p />
     <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-check ui-btn-icon-left">Done</a>
-  </div> 
+	</div> 
   
   <div data-role="header">
     <h1>Remote Server Status</h1>
 	 <a href="#revealPanel" class="ui-btn ui-btn-left ui-corner-all ui-icon-gear ui-btn-icon-notext">Settings</a>
   </div>
 
-  <div data-role="main" class="ui-content" >
-    
-		            <ul id="dServers" data-role="listview" data-inset="true" data-theme="b">
-					 <li><a href="acura.html" >Acura</a></li>
-					 <li><a href="acura.html" >Acura</a></li>
-					</ul>
-	<p><span id="display"></span></p>
-    <table class="FORMTABLE"><tr><td>
-	
-	</td></tr></table>
-	
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-            <td>
-			
-            <table id="TRACKERTABLE">
-			<tr><th>No</th><th class="tserver">Remote Server</th><th class="tstatus">Status</th><th class="tdesc">Summary</th></tr>
-
-			<tr><table style="border:none 0px black;border-collapse:collapse;" id="someDivInsideTheFormThatWillHoldTheControl"></table></tr>
-			<tr><td style="border:solid 0px black;padding:3px;" colspan="4"><font size="-1">*Invalid Servers will be discarded automatically.</font></td></tr>			
-			</table>
-            
-            </td>
-            </tr>
-        </table>
-   
-		<table class="FORMTABLE">
-            <tr><td style="border:none 0px black;text-align:center;padding-top:3px;">
-            <!-- <input type="button" name="Button1" value="Manual Ping" id="Button1" />
-            &nbsp;          
-            <input type="button" name="Button2" value="Automatic Ping ON" id="Button2" />  -->               
-            </td></tr>
-            <tr><td style="border:none 0px black;text-align:center;padding:3px;"></td></tr>
-			
-		</table>
-	
-<!-- 					<div data-role="controlgroup" data-type="vertical">
-      <a id="Button1" href="#" class="ui-btn">Manual Ping</a>
-      <a id="Button2" href="#" class="ui-btn">Automatic Ping ON</a>
-    </div> -->
+<div data-role="main" class="ui-content" ><ul id="dServers" data-role="listview" data-inset="true" data-theme="b"></ul><p><span id="display"></span></p>	
 	
   </div>
 
@@ -98,7 +52,7 @@
 						<li><a href="#" id="someButton" data-icon="plus">Add Server</a></li>
 						<li><a href="#" id="resetButton" data-icon="delete">Clear List</a></li>
 						<li><a href="#" id="Button1" data-icon="arrow-u-r">Manual Ping</a></li>
-						<li><a href="#" id="Button2" href="#" data-icon="refresh">Automatic Ping ON</a></li>
+						<li><a href="#" id="Button2" data-icon="refresh">Automatic Ping ON</a></li>
 					</ul>
 				</div>
     <h1 style="visibility:visible">

@@ -1,4 +1,4 @@
-﻿<?php
+﻿﻿<?php
 //header("Content-type: text/xml");
 
 function ping($host, $port, $timeout) 
@@ -25,16 +25,24 @@ function pingDomain($domain){
     }
     return $status;
 }
+
+function addHeader() {
+	header("Content-Type:text/xml");
+	header("Access-Control-Allow-Origin: *");
+	//header("Access-Control-Allow-Methods: GET, POST");	
+}
+
 $statistic = 0;
 $tmpPing="";
+$nPing="";
 //Echoing it will display the ping if the host is up, if not it'll say "down".
 $MyDomain = "183.171.232.66";
 
 if($_GET['ip']==""){$MyDomain = "183.171.232.66";}else{$MyDomain = $_GET['ip'];};
 
-echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
-echo "<members>\n";
-echo "<desc>\n";
+$nPing = $nPing."<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+$nPing = $nPing."<members>\n";
+$nPing = $nPing."<desc>\n";
 
 for ($x=0; $x<10; $x++)
   {
@@ -44,23 +52,25 @@ for ($x=0; $x<10; $x++)
   if($tmpPing=="down")
   {
 	$statistic+=1;
-	echo "Request timed out.\n";
+	$nPing = $nPing."Request timed out.\n";
   }else{
-	echo "Reply From ".$MyDomain." : time=".$tmpPing.".\n";
+	$nPing = $nPing."Reply From ".$MyDomain." : time=".$tmpPing.".\n";
   }  
   } 
 
-echo "</desc>\n";
-echo "<summary>Ping statistics (".($statistic*100/10)."% loss)</summary>\n";
-echo "<status>";
+$nPing = $nPing."</desc>\n";
+$nPing = $nPing."<summary>Ping statistics (".($statistic*100/10)."% loss)</summary>\n";
+$nPing = $nPing."<status>";
 
 if (pingDomain($MyDomain)==-1)
   {
-  echo "OFFLINE";
+  $nPing = $nPing."OFFLINE";
   }else{
-  echo "ONLINE";
+  $nPing = $nPing."ONLINE";
   }
-echo "</status>\n";
-echo "</members>\n";
+$nPing = $nPing."</status>\n";
+$nPing = $nPing."</members>\n";
 
+addHeader();
+echo $nPing;
 ?>
