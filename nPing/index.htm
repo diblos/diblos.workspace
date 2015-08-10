@@ -2,48 +2,48 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="Test your JavaScript, CSS, HTML or CoffeeScript online with JSFiddle code editor." />
-    <meta name="keywords" content="online javascript editor, testing javascript online, online ide, online code editor, html, css, coffeescript, scss online editor" />
+    <meta name="description" content="Check your servers heartbeat constantly." />
+    <meta name="keywords" content="online server heartbeat checker, online checker, server heartbeat, domain checker, ip checker, host heartbeat checker" />
 	<meta http-equiv="cache-control" content="no-cache">
   <!--   <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />   -->  
-    
+    <meta name="googlebot" content="index, follow" />   -->
+
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script type="text/javascript" src="http://s.nakedmaya.com/jstorage.js"></script>	
-	
+    <script type="text/javascript" src="http://s.nakedmaya.com/jstorage-min.js"></script>
+
 	<link rel="icon" href="/favicon.png" />
 
 	<link href="assets/nping.css" rel="stylesheet">
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 	<link href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" rel="stylesheet">
-        
+
 <title>Remote Server Status</title>
 
   </head>
   <body>
-  
+
   <div data-role="page" id="pageone" data-theme="a">
-  
-	<div data-role="panel" id="revealPanel" data-display="reveal"> 
+
+	<div data-role="panel" id="revealPanel" data-display="reveal">
     <h2>Settings</h2>
-	 <form>	 
-		<div class="ui-field-contain">	  
+	 <form>
+		<div class="ui-field-contain">
 		<p>Ping Interval (Minute):</p>
 		<input type="range" name="points" id="points" value="15" min="5" max="60" data-highlight="true">
-		</div>    
-    </form>    
+		</div>
+    </form>
 	<p />
     <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-check ui-btn-icon-left">Done</a>
-	</div> 
-  
+	</div>
+
   <div data-role="header">
     <h1>Remote Server Status</h1>
 	 <a href="#revealPanel" class="ui-btn ui-btn-left ui-corner-all ui-icon-gear ui-btn-icon-notext">Settings</a>
   </div>
 
-<div data-role="main" class="ui-content" ><ul id="dServers" data-role="listview" data-inset="true" data-theme="b"></ul><p><span id="display"></span></p>	
-	
+<div data-role="main" class="ui-content" ><ul id="dServers" data-role="listview" data-inset="true" data-theme="b"></ul><p><span id="display"></span></p>
+
   </div>
 
   <div data-role="footer" data-position="fixed">
@@ -59,8 +59,8 @@
 	<span style="position:relative;top:-12px;">any comments welcomed </span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-twitter fa-3x"></i></a>
 	</h1>
   </div>
-</div> 
-  
+</div>
+
 <div data-role="dialog" id="serverDialog" data-overlay-theme="a" class="my-dialog">
 
 <div role="main" class="ui-content">
@@ -71,7 +71,7 @@
 </p>
 </div>
 </div>
-		
+
 <script type="text/javascript" src="assets/nping.js"></script>
   </body>
 </html>
