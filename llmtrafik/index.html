@@ -6,49 +6,30 @@
     <meta name="keywords" content="LLM traffic camera, llm cctv, mha camera,llm traffic" />
 	<meta http-equiv="cache-control" content="no-cache">
   <!--   <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />   -->  
-    
+    <meta name="googlebot" content="index, follow" />   -->
+
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    
+
 	<link rel="icon" href="/favicon.png" />
-<style type="text/css">
-    body{font-family:Verdana;}
 
-	table{display:none}
-
-    #display{font-size:smaller}
-
-	.ui-dialog.my-dialog .ui-dialog-contain { margin-top: 0 }
-	
-	p {font-size:16px}
-	
-	-webkit-touch-callout:none;
-	-webkit-user-select:none;
-	-khtml-user-select:none;
-	-moz-user-select:none;
-	-ms-user-select:none;
-	user-select:none;
-	-webkit-tap-highlight-color:rgba(0,0,0,0);
-</style>
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 	<link href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" rel="stylesheet">
-<!-- 	<link href="../themes/allc.min.css" rel="stylesheet">
-	<link href="../themes/jquery.mobile.icons.min.css" rel="stylesheet"> -->
-        
+	<link href="index.css" rel="stylesheet">
+
 <title>LLM Trafik Cameras</title>
-<!-- <title>Check your Servers</title> -->
+
   </head>
   <body>
 
   <div data-role="page" id="pageone" data-theme="b">
-  
-   <div data-role="panel" id="revealPanel" data-display="reveal" data-position-fixed="true"> 
+
+   <div data-role="panel" id="revealPanel" data-display="reveal" data-position-fixed="true">
     <h2>Settings</h2>
-	 <form>	 
-	 <div class="ui-field-contain" style="display:block;">	  
+	 <form>
+	 <div class="ui-field-contain" style="display:block;">
 	  <p>Filters:</p>
-	  
+
 	  <fieldset class="ui-grid-solo">
 		<div class="ui-block-a">
 		<!-- <legend>&nbsp;</legend> -->
@@ -56,9 +37,9 @@
 		<label for="cb-approved">Approved</label>
 		<input type="checkbox" name="cb-napproved" id="cb-napproved" class="custom" checked />
 		<label for="cb-napproved">Not Approved</label>
-		
+
 		</div>
-		
+
     </fieldset>
 
 	 </div>
@@ -67,36 +48,36 @@
     <!-- <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p> -->
 	<p />
     <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Done</a>
-  </div> 
-  
+  </div>
+
     <!-- <div data-role="page" id="pageone" data-theme="b"> -->
-  
-   <div data-role="panel" id="disclamer" data-position="right" data-display="overlay" data-position-fixed="true"> 
+
+   <div data-role="panel" id="disclamer" data-position="right" data-display="overlay" data-position-fixed="true">
     <h3>Disclaimer</h3>
-	 <form>	 
+	 <form>
 	 <div class="ui-field-contain" style="display:block;">
-	  
+
 	  <div class="ui-grid-solo">
-		<div id="dDisclaimer" class="ui-block-a">		
+		<div id="dDisclaimer" class="ui-block-a">
 		</div>
-		
+
     </div>
 
 	 </div>
-    
+
     </form>
-    
+
 	<p />
     <a href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Agree</a>
-  </div> 
-  
+  </div>
+
   <div data-role="header" data-position="fixed">
     <h1><abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr> Trafik Camera</h1>
 	 <a href="#revealPanel" class="ui-btn ui-btn-left ui-corner-all ui-icon-gear ui-btn-icon-notext" style="display:none;">Settings</a>
 	 <a href="#disclamer" class="ui-btn ui-btn-right ui-corner-all ui-icon-bullets ui-btn-icon-notext">Disclaimer</a>
   </div>
 
-  <div data-role="main" class="ui-content" >    
+  <div data-role="main" class="ui-content" >
 		            <ul id="dApplicants" data-role="listview" data-inset="true" data-theme="b" style="display:block;">
 <!-- 					 <li><a href="acura.html" >Acura</a></li>
 					 <li><a href="acura.html" >Acura</a></li> -->
@@ -104,7 +85,7 @@
 	<p><span id="display"></span></p>
 
 <!-- STUDENT -->
-	
+
 
 
 <!-- OFFICE USE -->
@@ -116,7 +97,7 @@
     	<span style="position:relative;top:-8px;">any comments welcomed </span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-twitter fa-2x"></i></a>
 	</h1>
   </div>
-</div> 
+</div>
 
   <div data-role="page" id="pagedetail" data-theme="b">
     <div data-role="header" data-position="fixed">
@@ -124,9 +105,9 @@
 	<a href="#" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a>
 	<!-- <a id="button_attachment" href="#pageattachment" data-theme="b" ><i class="fa fa-picture-o fa-fw" style="color:gray"></i> Attachment</a>	 -->
   </div>
-  <div data-role="main" class="ui-content" >   
+  <div data-role="main" class="ui-content" >
   <!-- <div style="text-align:center;"><img src="../src/logo.min.png" width="200px"></img></div> -->
-		
+
 <ul id="camlist" data-role="listview" data-inset="true" data-theme="b" style="display:block;">
 	<li data-role="list-divider">Camera List</li>
 </ul>
@@ -138,20 +119,20 @@
     	<span style="position:relative;top:-8px;">any comments welcomed </span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-twitter fa-2x"></i></a>
 	</h1>
   </div>
-</div> 
-  
-		
-
-		
+</div>
 
 
 
-  
+
+
+
+
+
     		<div data-role="page" data-theme="a" id="fOKdialog">
 			<div data-role="header" data-position="inline">
-				<h1>Notification</h1>								
+				<h1>Notification</h1>
 			</div>
-			<div data-role="content" data-theme="a">				
+			<div data-role="content" data-theme="a">
 
 				<form action="#" method="get">
 
@@ -159,15 +140,15 @@
 
 					<div class="ui-body ui-body-a">
 						<fieldset class="ui-grid-solo">
-							<div class="ui-block-a"><button id="#" type="submit" data-theme="d">OK</button></div>							
-					    </fieldset>						
+							<div class="ui-block-a"><button id="#" type="submit" data-theme="d">OK</button></div>
+					    </fieldset>
 					</div>
 
 				</form>
 
 			</div>
-		</div>	
-  
+		</div>
+
 <div data-role="dialog" id="serverDialog" data-overlay-theme="a" class="my-dialog">
 <!-- <div data-role="header">
 <h2>Dialog</h2>
@@ -179,7 +160,7 @@
 <a href="#" data-role="button" data-icon="plus" onclick="AddServer($('input#text-server').val());$('#serverDialog').dialog('close');">Add Server</a>
 </p>
 </div>
-</div>	
+</div>
 <script type="text/javascript" src="index.js"></script>
   </body>
 </html>

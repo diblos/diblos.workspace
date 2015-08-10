@@ -80,47 +80,53 @@ var getlist = function(){
 
 }
 
-
-function showcams(d){
+var showcams = function(d){
+		updateflag = false;
 		$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
 		var LLMroot = "http://m.llm.gov.my/";
 		//var dURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D'"+encodeURIComponent(LLMroot+d)+"'%20and%20xpath%3D'%2F%2Ftable%5B3%5D%2F%2Ftr%5B3%5D%2F%2Ftbody%2F%2Ftd%2F%2Fspan'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-		var dURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27"+encodeURIComponent(LLMroot+d)+"%27%20and%20xpath%3D%27%2F%2Ftable[3]%2F%2Ftr[3]%2F%2Ftbody%2F%2Ftd%2F%2Fimg[%40height%3D%22120px%22]%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+		//var dURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27"+encodeURIComponent(LLMroot+d)+"%27%20and%20xpath%3D%27%2F%2Ftable[3]%2F%2Ftr[3]%2F%2Ftbody%2F%2Ftd%2F%2Fimg[%40height%3D%22120px%22]%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+		var dURL = "cam.php";
 		$.ajax({
+			method: "POST",
             url: dURL,
+			data:{ 'u': encodeURIComponent(LLMroot+d) },
             dataType: "text",
 			beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
-                //alert(data);
-                //return false;
+            	 //alert(data);
+				//return false;
                 
-				var count = 0;
-				
-				var json = $.parseJSON(data);
-				$( "#camlist" ).empty().append('<li data-role="list-divider">Camera List ('+json.query.count+' online)</li>');				
+				var count = 0;				
+				var json = $.parseJSON(data);				
+				$( "#camlist" ).empty().append('<li data-role="list-divider">Camera List ('+json.length+' online)</li>');				
 				
 				try {
-					$(json.query.results.img).each(function() {					
+
+					$(json).each(function() {
 							
-					var li = $( '<li swatch="a" style="text-align:right;">' );
+					var li = $( '<li swatch="a" style="text-align:center;">' );
 					var img = $( "<img/>" );
 					var h = $( "<h3/>" );
 					
+					//var ename = this.name.slice(4).split('_').join(' ');
+					var ename = this.name.slice(4).split('_').join(' ').replace('CAM','CAMERA').replace('WB','(WEST BOUND)').replace('EB','(EAST BOUND)').replace('SB','(SOUTH BOUND)').replace('NB','(NORTH BOUND)');
+					
 					h.attr("id","cam_"+(count+=1));
-					//h.html('nama');
+					h.html(ename);
 					img.attr("id","img_"+count);
-					img.attr("width",200);
-					img.attr("src",LLMroot+this.src);					
-					//img.attr("src",this.src.replace('TrafficImages.aspx','http://www.llm.gov.my/maklumat_trafik_terkini.aspx'));
-															
+					img.attr("title",ename);
+					img.attr("alt",ename);
+					
+					img.attr("src",LLMroot+this.link);
+
 					li.append(h);
 					li.append(img);
-                    
+				  				  
 					$( "#camlist" ).append(li);
 				
 				});
-				camname(d);
 			}
 			catch(err) {
 				//Block of code to handle errors
@@ -130,56 +136,29 @@ function showcams(d){
 			}
 				//$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });				
             },
-            error: function(x, t, m) {
-                if(t==="timeout") {
-                    setTimeout(function(){xAlert("err:timeout","Error","OK");},1000);
-                } else {
-                    xAlert(x+' '+t+' '+m,"Error","OK");
-                    // setTimeout(function(){alert('err:'+t);},1000);
-                }
-            }
+           	error: function(x, t, m) {
+		        if(t==="timeout") {
+		            setTimeout(function(){alert("err:timeout");},1000);
+		        } else {
+		        	alert(x+' '+t+' '+m);
+		            // setTimeout(function(){alert('err:'+t);},1000);
+		        }
+    		}
         });
 }
 
-function camname(d){
-		//$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
-		var LLMroot = "http://m.llm.gov.my/";
-		var dURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D'"+encodeURIComponent(LLMroot+d)+"'%20and%20xpath%3D'%2F%2Ftable%5B3%5D%2F%2Ftr%5B3%5D%2F%2Ftbody%2F%2Ftd%2F%2Fspan'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";		
-		$.ajax({
-            url: dURL,
-            dataType: "text",
-            success: function(data) {
-                //alert(data);
-                //return false;
-                
-				var count = 0;
-				
-				var json = $.parseJSON(data);
-				
-				$(json.query.results.span).each(function() {
-				
-//					var ename = this.content.slice(4).split('_').join(' ');
-					var ename = this.content.slice(4).split('_').join(' ').replace('CAM','CAMERA').replace('WB','(WEST BOUND)').replace('EB','(EAST BOUND)').replace('SB','(SOUTH BOUND)').replace('NB','(NORTH BOUND)');
-					
-					$('#cam_'+(count+=1)).html(ename);
-					$('#img_'+(count)).attr("title",ename);
-					$('#img_'+(count)).attr("alt",ename);
-				
-				});
-				//$('#camlist').listview( "refresh" );	
-				
-            },
-            error: function(x, t, m) {
-                if(t==="timeout") {
-                    setTimeout(function(){xAlert("err:timeout","Error","OK");},1000);
-                } else {
-                    xAlert(x+' '+t+' '+m,'Error','OK');
-                    // setTimeout(function(){alert('err:'+t);},1000);
-                }
-            }
-        });
+var login = function(){
+	if(($("#uid").val()==='admin')&&($("#pwd").val()==='admin')){
+	getlist();
+	$.mobile.changePage("#pageone", { transition: "slide",role: "page"});
+	}else{
+		alert('invalid login!');
+	}
 }
 
+var logout = function(){
+	$.mobile.changePage("#pagelogin", { transition: "slide",role: "page",reverse:true});	
+}
 
 var OK1= function(){$('#fOKdialog').dialog( 'close');return false;};
 var OK2= function(){

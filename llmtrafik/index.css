@@ -1,0 +1,19 @@
+body{font-family:Verdana;}
+
+table{display:none}
+
+#display{font-size:smaller}
+
+.ui-dialog.my-dialog .ui-dialog-contain { margin-top: 0 }
+
+p {font-size:16px}
+
+body{
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
