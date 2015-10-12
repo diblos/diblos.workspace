@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Quick way to get now showing movies in Malaysia." />
+    <meta name="keywords" content="Malaysia cinema, quick movie, movie date,quick cinema, mbo,cathay,gsc,tgv,lotus five stars" />
+	<meta http-equiv="cache-control" content="no-cache">
+  <!--   <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />   -->
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+	<link rel="icon" href="/favicon.png" />
+
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" rel="stylesheet">
+	<link href="index.css" rel="stylesheet">
+
+<title>KwikMuvi</title>
+
+  </head>
+  <body>
+
+  <div data-role="page" id="pageone" data-theme="b">
+
+   <div data-role="panel" id="revealPanel" data-display="reveal" data-position-fixed="true">
+    <h2>Settings</h2>
+	 <form>
+	 <div class="ui-field-contain" style="display:block;">
+	  <p>Filters:</p>
+
+	  <fieldset class="ui-grid-solo">
+		<div class="ui-block-a">
+		<!-- <legend>&nbsp;</legend> -->
+		<input type="checkbox" name="cb-approved" id="cb-approved" class="custom" checked />
+		<label for="cb-approved">Approved</label>
+		<input type="checkbox" name="cb-napproved" id="cb-napproved" class="custom" checked />
+		<label for="cb-napproved">Not Approved</label>
+
+		</div>
+
+    </fieldset>
+
+	 </div>
+      <!-- <input type="submit" data-inline="true" value="Submit"> -->
+    </form>
+    <!-- <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p> -->
+	<p />
+    <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Done</a>
+  </div>
+
+    <!-- <div data-role="page" id="pageone" data-theme="b"> -->
+
+   <div data-role="panel" id="disclamer" data-position="right" data-display="overlay" data-position-fixed="true">
+    <h3>Disclaimer</h3>
+	 <form>
+	 <div class="ui-field-contain" style="display:block;">
+
+	  <div class="ui-grid-solo">
+		<div id="dDisclaimer" class="ui-block-a">
+		</div>
+
+    </div>
+
+	 </div>
+
+    </form>
+
+	<p />
+    <a href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Agree</a>
+  </div>
+
+  <div data-role="header" data-position="fixed">
+    <h1 id="logo">Kwik<span>Muvi</span></h1>
+	 <a href="#revealPanel" class="ui-btn ui-btn-left ui-corner-all ui-icon-gear ui-btn-icon-notext" style="display:none;">Settings</a>
+	 <a href="#disclamer" class="ui-btn ui-btn-right ui-corner-all ui-icon-bullets ui-btn-icon-notext">Disclaimer</a>
+  </div>
+
+  <div data-role="main" class="ui-content" >
+      <ul id="dApplicants" data-role="listview" data-inset="true" data-theme="b" style="display:block;" data-autodividers="true" data-filter="true" data-filter-placeholder="Search Cinema"></ul>
+	<p><span id="display"></span></p>
+
+  </div>
+
+  <div data-role="footer" data-position="fixed">
+    <h1 style="visibility:visible">
+    	<span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
+	</h1>
+  </div>
+</div>
+
+  <div data-role="page" id="pagedetail" data-theme="b">
+    <div data-role="header" data-position="fixed">
+    <h1 id="hname">Applicant Details</h1>
+	<!-- <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a> -->
+  <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
+  </div>
+  <div data-role="main" class="ui-content" >
+
+<ul id="camlist" data-role="listview" data-inset="true" data-theme="b" style="display:block;">
+	<li data-role="list-divider">Camera List</li>
+</ul>
+
+  </div>
+
+  <div data-role="footer" data-position="fixed">
+    <h1 style="visibility:visible">
+    	<span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
+	</h1>
+  </div>
+</div>
+
+<div data-role="page" id="pagedetail2" data-theme="b">
+  <div data-role="header" data-position="fixed">
+  <h1 id="hname2">Applicant Details</h1>
+<!-- <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a> -->
+<a href="#pagedetail" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
+</div>
+<div data-role="main" class="ui-content" >
+
+<ul id="camlist2" data-role="listview" data-inset="true" data-theme="b" style="display:block;">
+<li data-role="list-divider">Camera List</li>
+</ul>
+
+</div>
+
+<div data-role="footer" data-position="fixed">
+  <h1 style="visibility:visible">
+    <span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
+</h1>
+</div>
+</div>
+
+    		<div data-role="page" data-theme="a" id="fOKdialog">
+			<div data-role="header" data-position="inline">
+				<h1>Notification</h1>
+			</div>
+			<div data-role="content" data-theme="a">
+
+				<form action="#" method="get">
+
+					<p style="display:none">This page contains various progressive-enhancement driven form controls. Native elements are sometimes hidden from view, but their values are maintained so the form can be submitted normally. Browsers that don't support the custom controls will still deliver a usable experience because all are based on native form elements.</p>
+					<div class="ui-body ui-body-a">
+						<fieldset class="ui-grid-solo">
+							<div class="ui-block-a"><button id="#" type="submit" data-theme="d">OK</button></div>
+					    </fieldset>
+
+              <script type="text/javascript"><!--
+              google_ad_client = "pub-4218643778147596";
+              google_ad_slot = "5400498385";
+              google_ad_width = 728;
+              google_ad_height = 90;
+              //-->
+              </script>
+              <p id="myads" style="text-align:center;"><script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script></p>
+
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+
+<script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

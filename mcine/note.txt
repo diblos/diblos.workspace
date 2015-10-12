@@ -1,0 +1,13 @@
+google adsense works in IE and firefox
+google adsense fail to work  in chrome - come out and disappeared
+
+
+
+
+//*[@id="container"]/div[5]
+
+
+//*[@id="container"]/div[5]/div[1]
+
+
+//*[@id="container"]/div[5]/div[2]
