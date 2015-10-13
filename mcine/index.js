@@ -79,8 +79,8 @@ var getlist = function(){
 
 					a.attr("style","vertical-align: middle;")
 				  a.attr("href",'#pagedetail');
-				  a.attr("onclick",'resetlist();rename("'+this.content+'");showcams("'+this.value+'");return false;');
-					// a.attr("onclick",'resetlist();showcams("'+this.value+'");return false;');
+				  a.attr("onclick",'resetlist();rename("'+this.content+'");showslist("'+this.value+'");return false;');
+					// a.attr("onclick",'resetlist();showslist("'+this.value+'");return false;');
 
 					var img = $( "<img/>" );
 					img.attr("src",hcodeimg(this.content));
@@ -108,8 +108,8 @@ var getlist = function(){
 
 }
 
-var showcams = function(d){
-		var LLMroot = "http://m.cinema.com.my";
+var showslist = function(d){
+		var wwwroot = "http://m.cinema.com.my";
 		var dURL = "slist.php";
 		$.ajax({
 			method: "POST",
@@ -131,7 +131,7 @@ var showcams = function(d){
 					var a = $( "<a/>" );
 					// a.attr("style","vertical-align: middle;")
 				  a.attr("href",'#pagedetail');
-				  // a.attr("onclick",'resetlist();rename("'+this.content+'");showcams("'+this.value+'");return false;');
+				  // a.attr("onclick",'resetlist();rename("'+this.content+'");showslist("'+this.value+'");return false;');
 
 
 					var img = $( "<img/>" );
@@ -148,20 +148,21 @@ var showcams = function(d){
 					h.text(this.a.b);
 					// img.attr("id","img_"+count);
 					// img.attr("width",200);
-					// img.attr("src",LLMroot+this.src);
+					// img.attr("src",getposter(this.src));
 
 										$(this.div).each(function() {
 											schstr+=this+"  ";
 										});
 
 					a.append(h);
-					// li.append(img);
+					// a.append(img);
 					content.html(this.i);
 					schedule.html(schstr);
 					a.append(content);
 					a.append("<br />").append(schedule);
 
-					a.attr("onclick",'$.mobile.changePage("#pagedetail2", { transition: "slide",role: "page" });return false;');
+					// a.attr("onclick",'$.mobile.changePage("#pagedetail2", { transition: "slide",role: "page" });return false;');
+					a.attr("onclick","showdetails('"+this.a.href+"');return false;");
 
 					a.append(klass);
 
@@ -170,7 +171,7 @@ var showcams = function(d){
 				});
 
 				//=======================================================================
-				// camname(json[1].query.results.span);
+				// showname(json[1].query.results.span);
 
 			}
 			catch(err) {
@@ -178,9 +179,9 @@ var showcams = function(d){
 			}
 			finally {
 				$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
-				if($( "#camlist li" ).length>=1){
-					$( "#camlist" ).append('<li swatch="a"><center>'+$( "#myads ins" ).html()+'</center></li>');
-				};
+				// if($( "#camlist li" ).length>=1){
+				// 	$( "#camlist" ).append('<li swatch="a"><center>'+$( "#myads ins" ).html()+'</center></li>');
+				// };
 				$('#camlist').listview( "refresh" );
 			}
 				//$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
@@ -196,7 +197,67 @@ var showcams = function(d){
         });
 }
 
-function camname(d){
+var showdetails = function(d){
+		var wwwroot = "http://m.cinema.com.my";
+		var dURL = "sdetails.php";
+		$.ajax({
+			method: "POST",
+            url: dURL,
+						data:{ 'u': d },
+            dataType: "xml",
+						beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
+            complete: function() { $.mobile.loading('hide'); }, //Hide spinner
+            success: function(data) {
+
+// 				$(data).find('div').each(function() {
+// 			                        var status = $(this).find("status").text();
+// 			                        var summary = $(this).find("summary").text();
+// 															alert(0);
+// });
+				// console.log($(data).find('query').find('results').length);
+				// console.log($(data).find('query').children().children().children().length);
+
+				$( "#camlist2" ).empty().append('<li data-role="list-divider">movie</li>');
+
+				try {
+					//=======================================================================
+					var li = $( '<li swatch="a" style="text-align:left;">' );
+					// li.append($img);
+					$( "#camlist2" ).append(li);
+
+					// $(json.query.results.div.div).each(function() {
+					//
+					// $( "#camlist2" ).append(li);
+					//
+					// });
+
+				//=======================================================================
+
+			}
+			catch(err) {
+				//Block of code to handle errors
+			}
+			finally {
+				$.mobile.changePage("#pagedetail2", { transition: "slide",role: "page" });
+				// if($( "#camlist li" ).length>=1){
+				// 	$( "#camlist" ).append('<li swatch="a"><center>'+$( "#myads ins" ).html()+'</center></li>');
+				// };
+				$('#camlist2').listview( "refresh" );
+			}
+				//$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
+            },
+           	error: function(x, t, m) {
+		        if(t==="timeout") {
+		            setTimeout(function(){alert("err:timeout");},1000);
+		        } else {
+		        	alert(x+' '+t+' '+m);
+		            // setTimeout(function(){alert('err:'+t);},1000);
+		        }
+    		}
+        });
+}
+
+function showname(d){
 				var count = 0;
 				$(d).each(function() {
 					// var ename = this.name.slice(4).split('_').join(' ');
@@ -210,7 +271,7 @@ function camname(d){
 function hcodeimg(cp){
 	var result=undefined;
 
-	console.log(cp);
+	// console.log(cp);
 
 	if(hcode){
           	$(hcode).each(function() {

@@ -1,5 +1,6 @@
 <?php
-header("Content-type: text/xml; charset=utf-8");
+// header("Content-type: aplication/json; charset=utf-8");
+header("Content-type: text/plain; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
 
@@ -7,7 +8,7 @@ $url=urldecode($_POST["u"]);
 
 if(!$url){$url='http://m.cinema.com.my/movies/content.aspx?search=2015.9977.themartians.21373';}
 //Code to access YQL using PHP
-$yql_query = "select * from html where url='".$url."' and xpath='//*[@id=\"container\"]/div[5]'";
+$yql_query = "select * from html where url='".$url."' and xpath='//*[@id=\"container\"]/div[5]/div[1]/img'";
 // $result=var_dump(getResultFromYQL(sprintf($yql_query, $value)));
 $result = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Falltableswithkeys');
 
@@ -25,7 +26,7 @@ echo $result;
 function getResultFromYQL($yql_query, $env = '') {
     $yql_base_url = "http://query.yahooapis.com/v1/public/yql";
     $yql_query_url = $yql_base_url . "?q=" . urlencode($yql_query);
-    $yql_query_url .= "&format=xml";
+    $yql_query_url .= "&format=json";
 
     if ($env != '') {
         $yql_query_url .= '&env=' . urlencode($env);
