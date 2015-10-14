@@ -2,8 +2,9 @@ var t;var min = 15;
 var con_name=0;
 var nTitle = '';
 var nRole = "Website";
+var AppName = "MCine";
 
-var disclaimerText = '<p>1. You are agreed to access and use this '+nRole+' entirely at your own risk. All information provided here is provided by <abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr>. <abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr> shall have the right to terminate or suspend its services at any time and for any reason, generally without notice.</p>';
+var disclaimerText = '<p>1. You are agreed to access and use this '+nRole+' entirely at your own risk. All information provided here is provided by '+AppName+'. '+AppName+' shall have the right to terminate or suspend its services at any time and for any reason, generally without notice.</p>';
 		disclaimerText+='<p>2. While every effort is made to ensure that the information provided on the '+nRole+' is current and accurate, the information provided is meant for informational purposes only and is not intended for mission or safety critical circumstances. You should not assume that the information on the '+nRole+' is always current or accurate, and other sources of this information should be consulted before making any decision to act on the information displayed on this '+nRole+'.</p>';
 		disclaimerText+='<p>3. This '+nRole+' is not tracking or keeping any of user information. Thus, in case of parties (such as hackers) may breach or attempt to breach this '+nRole+' security measures or may gain unauthorized access to the code and sniffed your information. You agree that we shall not be liable for damages of any sort, whether arising under contract, tort, or otherwise, with respect to any breach of security of the this '+nRole+' or any other company equipment.</p>';
 
@@ -162,7 +163,10 @@ var showslist = function(d){
 					a.append("<br />").append(schedule);
 
 					// a.attr("onclick",'$.mobile.changePage("#pagedetail2", { transition: "slide",role: "page" });return false;');
-					a.attr("onclick","showdetails('"+this.a.href+"');return false;");
+					a.attr("onclick","showdetails('"+wwwroot+this.a.href+"');return false;");
+					// a.attr("onclick","$( '#sDetails' ).load( '"+wwwroot+this.a.href+"' ,function(){$('#sDetails').trigger('create');});$.mobile.changePage('#pagedetail2', { transition: 'slide',role: 'page' });return false;")
+
+					// a.attr("onclick","$( '#sDetails' ).html( 'kokokokoko');$.mobile.changePage('#pagedetail2', { transition: 'slide',role: 'page' });return false;")
 
 					a.append(klass);
 
@@ -204,7 +208,7 @@ var showdetails = function(d){
 			method: "POST",
             url: dURL,
 						data:{ 'u': d },
-            dataType: "xml",
+            dataType: "text",
 						beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
@@ -217,13 +221,22 @@ var showdetails = function(d){
 				// console.log($(data).find('query').find('results').length);
 				// console.log($(data).find('query').children().children().children().length);
 
-				$( "#camlist2" ).empty().append('<li data-role="list-divider">movie</li>');
+				$( "#camlist2" ).empty();
+				// $( "#camlist2" ).empty().append('<li data-role="list-divider">movie</li>');
 
 				try {
 					//=======================================================================
+					// var html = $.parseHTML( data );
 					var li = $( '<li swatch="a" style="text-align:left;">' );
-					// li.append($img);
+					li.html(data);
+					// console.log(html);
 					$( "#camlist2" ).append(li);
+
+					$("#ctl00_ContentPlaceHolder_pnlContent").hide();
+					// $(".sec_innerbox").hide();
+					$( "#sDetails" ).hide();
+					$("#ctl00_ContentPlaceHolder_lblTitle").hide();
+					$("#hname2").text($("#ctl00_ContentPlaceHolder_lblTitle b b").html());
 
 					// $(json.query.results.div.div).each(function() {
 					//
