@@ -11,6 +11,10 @@ if(!$url){$url='http://m.cinema.com.my/movies/content.aspx?search=2015.9977.them
 $yql_query = "select * from html where url='".$url."' and xpath='//*[@id=\"container\"]/div[5]'";
 // $result=var_dump(getResultFromYQL(sprintf($yql_query, $value)));
 $result = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Falltableswithkeys');
+$result = str_replace("&#xd;","",$result);
+$result = preg_replace("/<input[^>]+\>/i", "", $result);
+$result= str_replace("<div id=\"accordion\">","<div id=\"accordion\" data-role=\"collapsible\" data-collapsed=\"true\" data-theme=\"b\">",$result);
+// $result= str_replace("<div id=\"ShowtimesList\">","<div id=\"ShowtimesList\" data-role=\"collapsible\" data-collapsed=\"false\" data-theme=\"b\">",$result);
 
 echo $result;
 

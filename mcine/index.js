@@ -27,9 +27,9 @@ $('#pagedetail').bind('pageshow',function(){document.title = nTitle});
 
 var goback = function(){$.mobile.changePage("#pageone", { transition: "slide",role: "page",reverse:true});};
 
-var rename = function(n){
+var rename = function(n,obj){
 	nTitle = n;
-	$('#pagedetail div h1#hname').html(nTitle);
+	obj.html(nTitle);
 }
 
 var resetlist = function(){
@@ -38,8 +38,11 @@ var resetlist = function(){
 }
 
 var getcode = function(){
+
 		$.ajax({
+						method: "POST",
             url: "clogo.php",
+						data:{ 'o': 1 },
             dataType: "text",
 						beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             // complete: function() { $.mobile.loading('hide'); }, //Hide spinner
@@ -65,35 +68,30 @@ var getlist = function(){
 						// beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
-            	 //alert(data);
+						$( "#dApplicants" ).empty().append('<li data-role="list-divider">Select Highway</li>');
+            var json = $.parseJSON(data);
+						var count = 0;
+						$(json.query.results.option).each(function() {
 
-				$( "#dApplicants" ).empty().append('<li data-role="list-divider">Select Highway</li>');
+				  	var li = $( '<li data-icon="carat-r" swatch="a">' );
+				  	var a = $( "<a/>" );
 
-                var json = $.parseJSON(data);
-                //now json variable contains data in json format
-				var count = 0;
+						a.attr("style","vertical-align: middle;")
+				  	a.attr("href",'#pagedetail');
+				  	a.attr("onclick",'resetlist();rename("'+this.content+'",$("#pagedetail div h1#hname"));showslist("'+this.value+'");return false;');
+						// a.attr("onclick",'resetlist();showslist("'+this.value+'");return false;');
 
-				$(json.query.results.option).each(function() {
+						var img = $( "<img/>" );
+						img.attr("src",hcodeimg(this.content));
+						// img.attr("class","ui-li-icon");
+						a.append(img);
+						a.append('<span>'+this.content+'</span>');
+				  	li.append(a);
 
-				  var li = $( '<li data-icon="carat-r" swatch="a">' );
-				  var a = $( "<a/>" );
+				  	$( "#dApplicants" ).append(li);
+					});
 
-					a.attr("style","vertical-align: middle;")
-				  a.attr("href",'#pagedetail');
-				  a.attr("onclick",'resetlist();rename("'+this.content+'");showslist("'+this.value+'");return false;');
-					// a.attr("onclick",'resetlist();showslist("'+this.value+'");return false;');
-
-					var img = $( "<img/>" );
-					img.attr("src",hcodeimg(this.content));
-					// img.attr("class","ui-li-icon");
-					a.append(img);
-					a.append('<span>'+this.content+'</span>');
-				  li.append(a);
-
-				  $( "#dApplicants" ).append(li);
-				});
-
-				$('#dApplicants').listview( "refresh" );
+						$('#dApplicants').listview( "refresh" );
 
             },
            	error: function(x, t, m) {
@@ -105,8 +103,6 @@ var getlist = function(){
 		        }
     		}
         });
-
-
 }
 
 var showslist = function(d){
@@ -175,8 +171,6 @@ var showslist = function(d){
 				});
 
 				//=======================================================================
-				// showname(json[1].query.results.span);
-
 			}
 			catch(err) {
 				//Block of code to handle errors
@@ -213,51 +207,23 @@ var showdetails = function(d){
             complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
 
-// 				$(data).find('div').each(function() {
-// 			                        var status = $(this).find("status").text();
-// 			                        var summary = $(this).find("summary").text();
-// 															alert(0);
-// });
-				// console.log($(data).find('query').find('results').length);
-				// console.log($(data).find('query').children().children().children().length);
-
-				$( "#camlist2" ).empty();
-				// $( "#camlist2" ).empty().append('<li data-role="list-divider">movie</li>');
-
 				try {
-					//=======================================================================
-					// var html = $.parseHTML( data );
-					var li = $( '<li swatch="a" style="text-align:left;">' );
-					li.html(data);
-					// console.log(html);
-					$( "#camlist2" ).append(li);
+					$( "#sDetails" ).html(data).trigger('create');
 
-					$("#ctl00_ContentPlaceHolder_pnlContent").hide();
-					// $(".sec_innerbox").hide();
-					$( "#sDetails" ).hide();
+					//=======================================================================
+					// $("#ctl00_ContentPlaceHolder_pnlContent").hide();
+					$(".sec_innerbox").hide();
 					$("#ctl00_ContentPlaceHolder_lblTitle").hide();
 					$("#hname2").text($("#ctl00_ContentPlaceHolder_lblTitle b b").html());
-
-					// $(json.query.results.div.div).each(function() {
-					//
-					// $( "#camlist2" ).append(li);
-					//
-					// });
-
-				//=======================================================================
-
+					// rename($("#ctl00_ContentPlaceHolder_lblTitle b b").html(),$('#pagedetail2 div h1#hname2'));
+					//=======================================================================
 			}
 			catch(err) {
 				//Block of code to handle errors
 			}
 			finally {
 				$.mobile.changePage("#pagedetail2", { transition: "slide",role: "page" });
-				// if($( "#camlist li" ).length>=1){
-				// 	$( "#camlist" ).append('<li swatch="a"><center>'+$( "#myads ins" ).html()+'</center></li>');
-				// };
-				$('#camlist2').listview( "refresh" );
 			}
-				//$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
@@ -270,22 +236,8 @@ var showdetails = function(d){
         });
 }
 
-function showname(d){
-				var count = 0;
-				$(d).each(function() {
-					// var ename = this.name.slice(4).split('_').join(' ');
-					var ename = this.content.slice(4).split('_').join(' ').replace('CAM','CAMERA').replace('WB','(WEST BOUND)').replace('EB','(EAST BOUND)').replace('SB','(SOUTH BOUND)').replace('NB','(NORTH BOUND)');
-					$('#cam_'+(count+=1)).html(ename);
-					$('#img_'+(count)).attr("title",ename);
-					$('#img_'+(count)).attr("alt",ename);
-				});
-}
-
 function hcodeimg(cp){
 	var result=undefined;
-
-	// console.log(cp);
-
 	if(hcode){
           	$(hcode).each(function() {
 						if(this.cCode.trim()==cp.split("-")[0].trim()){
@@ -301,6 +253,34 @@ function hcodeimg(cp){
 		return result;
 	}
 }
+
+// ==============================================================================================================================
+
+function reloadStorage(){
+	ver=$.jStorage.get("ver",999);
+	storeCount = $.jStorage.get("TrackerCount",0);
+}
+
+function saveStorage(){
+	$.jStorage.set("TrackerCount",TrackerCount);
+	for (i = 1; i <= TrackerCount; i++){
+		$.jStorage.set("ip"+i,$('#IP' + i).text());
+	}
+}
+
+function saveConfig(){
+	// min=$('#points').val();
+	// $.jStorage.set("min",min);
+}
+
+function resetStorage(count){
+		 // $.jStorage.deleteKey('TrackerCount');
+		 // for (i = 1; i <= TrackerCount; i++){
+			 // $.jStorage.deleteKey('ip'+i);
+		 // }
+}
+
+// ==============================================================================================================================
 
 var OK1= function(){$('#fOKdialog').dialog( 'close');return false;};
 var OK2= function(){

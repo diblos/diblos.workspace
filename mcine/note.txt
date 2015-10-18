@@ -1,8 +1,11 @@
 google adsense works in IE and firefox
 google adsense fail to work  in chrome - come out and disappeared
 
+https://www.google.com/search?q=select+xpath+php&ie=utf-8&oe=utf-8
+http://php.net/manual/en/simplexmlelement.xpath.php
+http://php.net/manual/en/domxpath.query.php
 
-
+http://www.hongkiat.com/blog/mobile-frameworks/
 
 //*[@id="container"]/div[5]
 
