@@ -67,7 +67,7 @@ $(function() {
             }
        
             function clock() {var now = new Date();var DtStr = (now.getDate()) + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();var TmStr = now.getHours() + ':' + ('0' + now.getMinutes()).slice(-2)  + ' ' + meridiem(now.getHours());return DtStr + ' ' + TmStr;}
-            function meridiem(hour) { if (hour > 11) { return 'AM'; } else { return 'PM'; }}
+            function meridiem(hour) { if (hour > 11) { return 'PM'; } else { return 'AM'; }}
 
 			function Auto() {if (autoToggle === true) {autoToggle = false;$('#Button2').html('Auto Ping ON');$('#Button1').removeClass('ui-disabled');clearTimeout(t);} else {autoToggle = true;$('#Button2').html('Auto Ping OFF');$('#Button1').addClass('ui-disabled');GetThere();}}
 			function Reset(){$('#dServers').empty().append('<li data-role="list-divider">Remote Servers</li>').listview( "refresh" );resetStorage(TrackerCount);TrackerCount=0;}
