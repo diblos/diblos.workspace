@@ -14,7 +14,9 @@ $result = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Fa
 $result = str_replace("&#xd;","",$result);
 $result = preg_replace("/<input[^>]+\>/i", "", $result);
 $result= str_replace("<div id=\"accordion\">","<div id=\"accordion\" data-role=\"collapsible\" data-collapsed=\"true\" data-theme=\"b\">",$result);
-// $result= str_replace("<div id=\"ShowtimesList\">","<div id=\"ShowtimesList\" data-role=\"collapsible\" data-collapsed=\"false\" data-theme=\"b\">",$result);
+$result= str_replace("<div id=\"ShowtimesList\">","<div id=\"ShowtimesList\" data-role=\"collapsible\" data-collapsed=\"false\" data-theme=\"b\">",$result);
+$result= str_replace("<hr/>","",$result);
+$result= str_replace("src=\"http://www.cinema.com.my/","src=\"sposter.php?f=",$result);
 
 echo $result;
 

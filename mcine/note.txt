@@ -14,3 +14,14 @@ http://www.hongkiat.com/blog/mobile-frameworks/
 
 
 //*[@id="container"]/div[5]/div[2]
+
+
+http://afeld.github.io/emoji-css/
+http://www.w3schools.com/html/html5_geolocation.asp
+
+TODO
+filter out by distance
+fix details layout
+change ('.links div') to ('.links ul')
+show loading
+ERROR PROOF

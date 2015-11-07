@@ -18,7 +18,7 @@ user-select:none;
 -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
-.ui-page .ui-content .ui-listview span {
+.ui-page .ui-content .ui-listview .spanlist {
     line-height    : 55px;
     vertical-align : middle;
 }
@@ -27,3 +27,5 @@ user-select:none;
 
 #logo{color:#777777;font-weight:bolder;font-style:italic;}
 #logo span{color:#8AC007;}
+.dimmed{color:gray;}
+.notdimmed{color:white;}
