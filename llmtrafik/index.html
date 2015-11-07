@@ -11,6 +11,7 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 
+	<script type="text/javascript" src="http://s.nakedmaya.com/jstorage-min.js"></script>
 	<link rel="icon" href="/favicon.png" />
 
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
@@ -78,23 +79,14 @@
   </div>
 
   <div data-role="main" class="ui-content" >
-		            <ul id="dApplicants" data-role="listview" data-inset="true" data-theme="b" style="display:block;">
-<!-- 					 <li><a href="acura.html" >Acura</a></li>
-					 <li><a href="acura.html" >Acura</a></li> -->
-					</ul>
+      <ul id="dApplicants" data-role="listview" data-inset="true" data-theme="b" style="display:block;" data-autodividers="true" data-filter="true" data-filter-placeholder="Search Highway"></ul>
 	<p><span id="display"></span></p>
-
-<!-- STUDENT -->
-
-
-
-<!-- OFFICE USE -->
 
   </div>
 
   <div data-role="footer" data-position="fixed">
     <h1 style="visibility:visible">
-    	<span style="position:relative;top:-8px;">any comments welcomed </span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-twitter fa-2x"></i></a>
+    	<span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
 	</h1>
   </div>
 </div>
@@ -102,11 +94,10 @@
   <div data-role="page" id="pagedetail" data-theme="b">
     <div data-role="header" data-position="fixed">
     <h1 id="hname">Applicant Details</h1>
-	<a href="#" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a>
-	<!-- <a id="button_attachment" href="#pageattachment" data-theme="b" ><i class="fa fa-picture-o fa-fw" style="color:gray"></i> Attachment</a>	 -->
+	<!-- <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a> -->
+  <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
   </div>
   <div data-role="main" class="ui-content" >
-  <!-- <div style="text-align:center;"><img src="../src/logo.min.png" width="200px"></img></div> -->
 
 <ul id="camlist" data-role="listview" data-inset="true" data-theme="b" style="display:block;">
 	<li data-role="list-divider">Camera List</li>
@@ -116,17 +107,10 @@
 
   <div data-role="footer" data-position="fixed">
     <h1 style="visibility:visible">
-    	<span style="position:relative;top:-8px;">any comments welcomed </span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-twitter fa-2x"></i></a>
+    	<span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
 	</h1>
   </div>
 </div>
-
-
-
-
-
-
-
 
     		<div data-role="page" data-theme="a" id="fOKdialog">
 			<div data-role="header" data-position="inline">
@@ -137,11 +121,20 @@
 				<form action="#" method="get">
 
 					<p style="display:none">This page contains various progressive-enhancement driven form controls. Native elements are sometimes hidden from view, but their values are maintained so the form can be submitted normally. Browsers that don't support the custom controls will still deliver a usable experience because all are based on native form elements.</p>
-
 					<div class="ui-body ui-body-a">
 						<fieldset class="ui-grid-solo">
 							<div class="ui-block-a"><button id="#" type="submit" data-theme="d">OK</button></div>
 					    </fieldset>
+
+              <script type="text/javascript"><!--
+              google_ad_client = "pub-4218643778147596";
+              google_ad_slot = "5400498385";
+              google_ad_width = 728;
+              google_ad_height = 90;
+              //-->
+              </script>
+              <p id="myads" style="text-align:center;"><script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script></p>
+
 					</div>
 
 				</form>
@@ -149,18 +142,6 @@
 			</div>
 		</div>
 
-<div data-role="dialog" id="serverDialog" data-overlay-theme="a" class="my-dialog">
-<!-- <div data-role="header">
-<h2>Dialog</h2>
-</div> -->
-<div role="main" class="ui-content">
-<p>
-<label for="text-basic">Input server ip or domain:</label>
-<input name="text-server" id="text-server" value="" type="text">
-<a href="#" data-role="button" data-icon="plus" onclick="AddServer($('input#text-server').val());$('#serverDialog').dialog('close');">Add Server</a>
-</p>
-</div>
-</div>
-<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="index-beta.js"></script>
   </body>
 </html>

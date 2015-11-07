@@ -6,7 +6,7 @@ table{display:none}
 
 .ui-dialog.my-dialog .ui-dialog-contain { margin-top: 0 }
 
-p {font-size:16px}
+p {font-size:14px}
 
 body{
 -webkit-touch-callout:none;
@@ -17,3 +17,10 @@ body{
 user-select:none;
 -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
+
+.ui-page .ui-content .ui-listview span {
+    line-height    : 55px;
+    vertical-align : middle;
+}
+
+.ui-panel-position-right.ui-panel-display-overlay{opacity: 0.95}

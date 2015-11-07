@@ -1,83 +1,50 @@
 <?php
-// header("Content-type: aplication/json; charset=utf-8");
-header("Content-type: text/plain; charset=utf-8");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST");
+// header("Content-type: image/png");
+header("Content-type: image/jpeg");
 
-class Camera {
-        public $name = "";
-        public $link  = "";
+$f = array_key_exists('f', $_GET) ? $_GET['f'] : 'TrafficImages.aspx?ImagePath=HYEC4fuANi4FALhGgLSGmDWAlRFhYuAE7/is8T3p+RNFPZUfEEiGJMPUu7w9ueJlGRBwPvWPhhZaoeEBDuT4iVGbTfB6AGQyPmzGEf3uYcByC8Twlaoubg==';
+$w = array_key_exists('w', $_GET) ? $_GET['w'] : 250;
+$h = array_key_exists('h', $_GET) ? $_GET['h'] : 250;
+$p = array_key_exists('p', $_GET) ? $_GET['p'] : 'true';
+
+@functionName($f,$w,$h,$p);
+//functionName($w,$h,$p);
+
+function functionName($f,$w,$h,$p) {
+$root = 'http://m.llm.gov.my/';
+$im = file_get_contents($root.$f);
+
+//if($im===false){$im = file_get_contents('http://m.llm.gov.my/TrafficImages.aspx?ImagePath=HYEC4fuANi4FALhGgLSGmDWAlRFhYuAE7/is8T3p+RNFPZUfEEiGJMPUu7w9ueJlGRBwPvWPhhZaoeEBDuT4iVGbTfB6AGQyPmzGEf3uYcByC8Twlaoubg==');}//default image
+if($im===false){$im = file_get_contents('http://www.hdwallpapers.in/walls/need_for_speed_race-wide.jpg');}//default image
+
+//$userImage64 = base64_encode($im);
+// Decode base64 encoded image into Image
+//$imgDecoded = base64_decode($userImage64);
+
+$imgDecoded = $im;
+
+// Requires string image as parm, returns image resource
+$im = imagecreatefromstring($imgDecoded);
+
+// Get width and height of original image resource
+$origWidth = imagesx($im);
+$origHeight = imagesy($im);
+
+if($p==='true'){
+    $h=$w*$origHeight/$origWidth;
 }
 
-$stack = array();
 
- // if(!isset($_POST[$u]) || empty($_POST[$u])) {		
-	$url=urldecode($_POST["u"]);
-	// // $url='http://m.llm.gov.my/TrafficImages.aspx?highwayCode=KSA';
-// }else{
-	// $url='http://m.llm.gov.my/TrafficImages.aspx?highwayCode=KSA';
-// }
+// Create new destination image resource for new 24 x 24 image
+//$imNew = imagecreatetruecolor(24, 24);
+$imNew = imagecreatetruecolor($w, $h);
 
-if(!$url){$url='http://m.llm.gov.my/TrafficImages.aspx?highwayCode=KSA';}
-
-//Code to access YQL using PHP
-$yql_query = "select * from html where url='".$url."' and xpath='//table[3]//tr[3]//tbody//td//span'";
-// echo $yql_query;
-// $result=var_dump(getResultFromYQL(sprintf($yql_query, $value)));
-$result = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Falltableswithkeys');
-// var_dump($result);
-//==================================================================================================================================================
-
-if (is_array($result) || is_object($result))
-{	
-    foreach ($result->query->results->span as $data)
-    {
-		$cam = new Camera();
-		$cam->name=$data->content;
-        // echo "<p>".$data->content."</p>";
-		array_push($stack,$cam);
-    }	
+// Re-sample image to smaller size and display
+imagecopyresampled($imNew, $im, 0, 0, 0, 0, $w, $h, $origWidth, $origHeight);
+// imagepng($imNew);
+imagejpeg($imNew);
+imagedestroy($im);
+imagedestroy($imNew);
 }
 
-// print_r($stack);
-
-$yql_query = "select * from html where url='".$url."' and xpath='//table[3]//tr[3]//tbody//td//img[@height=\"120px\"]'";
-// echo $yql_query;
-// $result=var_dump(getResultFromYQL(sprintf($yql_query, $value)));
-$result2 = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Falltableswithkeys');
-if (is_array($result2) || is_object($result2))
-{
-	for ($x = 0; $x < count($result2->query->results->img); $x++) {
-		$stack[$x]->link = $result2->query->results->img[$x]->src;
-	} 	
-}
-
-//print_r($stack);
-
-echo json_encode($stack);
-
-//==================================================================================================================================================
-
-function getResultFromYQL($yql_query, $env = '') {
-    $yql_base_url = "http://query.yahooapis.com/v1/public/yql";
-    $yql_query_url = $yql_base_url . "?q=" . urlencode($yql_query);
-    $yql_query_url .= "&format=json";
-	
-    if ($env != '') {
-        $yql_query_url .= '&env=' . urlencode($env);		
-    }
-
-	//$yql_query_url = urlencode($yql_query_url);
-	// echo $yql_query_url;
-
-    $session = curl_init($yql_query_url);
-    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-    //Uncomment if you are behind a proxy
-    //curl_setopt($session, CURLOPT_PROXY, 'Your proxy url');
-    //curl_setopt($session, CURLOPT_PROXYPORT, 'Your proxy port');
-    //curl_setopt($session, CURLOPT_PROXYUSERPWD, 'Your proxy password');
-    $json = curl_exec($session);
-    curl_close($session);	
-    return json_decode($json);
-}
 ?>
