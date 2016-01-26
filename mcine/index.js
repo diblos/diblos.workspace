@@ -42,7 +42,7 @@ $(document).on("pagebeforetransition", function (event, ui) {
 
 $('#pagedetail').bind('pageshow', function () {document.title = nTitle; });
 
-var afterloc = function () {"use strict"; checkver();getlist();};
+var afterloc = function () {"use strict"; checkver();getlist();/*getnowlist();*/};
 
 var goback = function () {"use strict"; $.mobile.changePage("#pageone", { transition: "slide", role: "page", reverse: true}); };
 
@@ -125,6 +125,53 @@ var getlist = function(){
         });
 }
 
+var getnowlist = function(){
+    // if((!sData)&&(dLOCATION_FLAG===true)){setTimeout(function(){getlist();},00);return false;}
+    $.ajax({
+            url: "readnow.php",
+            dataType: "text",
+            // beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
+            complete: function() { $.mobile.loading('hide'); }, //Hide spinner
+            success: function(data) {
+            // $( "#dApplicants" ).empty().append('<li data-role="list-divider">Select Highway</li>');
+            $( "#dApplicants" ).empty().attr('data-autodividers','true').attr('data-filter','true');
+            // $( "#dApplicants" ).removeAttr('data-autodividers').removeAttr('data-filter').removeAttr('data-filter-placeholder');
+            var json = $.parseJSON(data);
+            var count = 0;
+            $(json.query.results.a).each(function() {
+
+            var li = $( '<li data-icon="carat-r" swatch="a">' );
+            var a = $( "<a/>" );
+
+            a.attr("style","vertical-align: middle;")
+            a.attr("href",'#pagedetail');
+            a.text(this.img.alt);
+            // a.attr("onclick",'resetlist();rename("'+this.content+'",$("#pagedetail div h1#hname"));showslist("'+this.value+'");return false;');
+            a.attr("onclick","showdetails('http://m.cinema.com.my/movies/"+this.href+"');return false;");
+            var img = $( "<img/>" );
+            img.attr("src","sposter.php?w=80&h=80&f="+this.img.src);
+            // img.attr("class","ui-li-icon");
+            a.append(img);
+            // a.append('<span class="spanlist">'+this.content+'</span>'+sDatadistance(this.content));
+            li.append(a);
+
+            $( "#dApplicants" ).append(li);
+          });
+
+            $('#dApplicants').listview( "refresh" );
+
+            },
+             error: function(x, t, m) {
+            if(t==="timeout") {
+                setTimeout(function(){alert("err:timeout");},1000);
+            } else {
+              alert(x+' '+t+' '+m);
+                // setTimeout(function(){alert('err:'+t);},1000);
+            }
+        }
+        });
+}
+
 var showslist = function(d){
     var wwwroot = "http://m.cinema.com.my";
     var dURL = "slist.php";
@@ -138,12 +185,12 @@ var showslist = function(d){
             success: function(data) {
         var count = 0;
         var json = $.parseJSON(data);
-        $( "#camlist" ).empty().append('<li data-role="list-divider">'+json.query.results.div.content+'</li>');
+        $( "#camlist" ).empty().append('<li data-role="list-divider">'+json.query.count+' Show'+((json.query.count>1)?'s':'')+'</li>');
 
         try {
           //=======================================================================
 
-          $(json.query.results.div.div).each(function() {
+          $(json.query.results.div).each(function() {
 
           var li = $( '<li swatch="a" style="text-align:left;">' );
           var a = $( "<a/>" );
@@ -167,13 +214,12 @@ var showslist = function(d){
           // img.attr("id","img_"+count);
           // img.attr("width",200);
           // img.attr("src",getposter(this.src));
+
                     if($(this.div).length<=0){
-                      // schstr+=dimmed(this.div)+"  ";
-                      schedule.append(dimmed(this.div.trim()));
+                      schedule.append(dimmed((  isEmpty( $(this.div.a)) === false  ? this.div.a.content.trim() : this.div.trim() )));
                     }else {
                       $(this.div).each(function() {
-                        // schstr+=dimmed(this)+"  ";
-                        schedule.append(dimmed(this.trim())).append(" &nbsp;");
+                        schedule.append(dimmed((  isEmpty(  $(this.a) ) === false ? this.a.content.trim() : this.trim() ))).append(" &nbsp;");
                       });
                     }
 
@@ -243,13 +289,15 @@ var showdetails = function(d){
           // $(".links").parent().children('div').css( "background", "yellow" );
           // $(".links").parent(function(){this.children('div').hide()});
           // $(".links").parent().children('div').removeAttr( "id" ).removeAttr( "data-role" ).removeAttr( "data-collapsed" ).removeAttr( "data-theme" ).children('div').css("font-weight","bold");
-          $(".links").parent().children('div').removeAttr( "id" ).removeAttr( "data-role" ).removeAttr( "data-collapsed" ).removeAttr( "data-theme" ).children('br').remove();
+          // $(".links").parent().children('div').removeAttr( "id" ).removeAttr( "data-role" ).removeAttr( "data-collapsed" ).removeAttr( "data-theme" ).children('br').remove();
           // $(".links").parent().children('div').before(function() {return "<h3>" + this.text + "</h3>";});
           // $(".links").parent().children('div').children('br').before(function() {return "<h3>" + this.text + "</h3>";});
 
+          $(".mboticketing").removeAttr("href");
+
           $(".links").remove();
           $("hr").remove();
-          // $("#ctl00_ContentPlaceHolder_imgPoster").attr("width","40%")
+          $("#ctl00_ContentPlaceHolder_imgPoster").attr("width","40%")
           $("#ctl00_ContentPlaceHolder_lblTitle").hide();
           $("#hname2").text($("#ctl00_ContentPlaceHolder_lblTitle b b").html());
           //=======================================================================
@@ -342,7 +390,17 @@ function clock() {var now = new Date();var TmStr = ('0' + now.getHours()).slice(
 
 function meridiem(hour) { if (hour > 11) { return 'PM'; } else { return 'AM'; }}
 
-function dimmed(t){
+function dimmed(r){
+    try {
+      if(r.substring(r.length-1)===")"){
+        t=r.split(" ")[0];
+      }else {
+        t=r;
+      }
+    } catch (e) {
+      // do nothing
+    }
+
     var a = t.substring(5);
     var h = t.substring(0,2);
     var f = $( "<font/>" );
@@ -413,7 +471,8 @@ function dimmed(t){
         f.addClass( 'notdimmed' );
     }
     //================================== NEW END
-  return f.html(t);
+  // return f.html(t);
+  return f.html(r);
 }
 
 /* http://www.geodatasource.com/developers/javascript
@@ -500,6 +559,10 @@ function resetStorage(count){
 }
 
 // ==============================================================================================================================
+function isEmpty(ob){
+   for(var i in ob){ if(ob.hasOwnProperty(i)){return false;}}
+  return true;
+}
 
 var OK1= function(){$('#fOKdialog').dialog( 'close');return false;};
 var OK2= function(){
