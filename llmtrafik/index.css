@@ -24,3 +24,33 @@ user-select:none;
 }
 
 .ui-panel-position-right.ui-panel-display-overlay{opacity: 0.95}
+
+.teaser.lazyload {
+	opacity: 0;
+	transform: scale(0.8);
+}
+
+.teaser.lazyloaded {
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1000ms;
+}
+
+/*@media only screen and (max-width : 360px) {
+	div#camlist li {text-align: center !important}
+	div#camlist li img {
+	    width: 100% !important;
+	}
+}*/
+
+/*@media only screen and (min-width : 701px) and (max-width : 1699px){
+
+}*/
+
+/*@media only screen and (min-width : 361px){
+	div#camlist li {text-align: right !important}
+	div#camlist li img {
+      width:auto !important;
+      height:auto !important;
+	}
+}*/

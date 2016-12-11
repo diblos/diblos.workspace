@@ -2,16 +2,16 @@
 // header("Content-type: image/png");
 header("Content-type: image/jpeg");
 
-$f = array_key_exists('f', $_GET) ? $_GET['f'] : 'TrafficImages.aspx?ImagePath=HYEC4fuANi4FALhGgLSGmDWAlRFhYuAE7/is8T3p+RNFPZUfEEiGJMPUu7w9ueJlGRBwPvWPhhZaoeEBDuT4iVGbTfB6AGQyPmzGEf3uYcByC8Twlaoubg==';
-$w = array_key_exists('w', $_GET) ? $_GET['w'] : 250;
-$h = array_key_exists('h', $_GET) ? $_GET['h'] : 250;
+$f = array_key_exists('f', $_GET) ? $_GET['f'] : '/vigroot/cam_root/web/PB2/PB2_CAM_01_KM156.22_NB_PLUS.web.jpg';
+$w = array_key_exists('w', $_GET) ? $_GET['w'] : 160;
+$h = array_key_exists('h', $_GET) ? $_GET['h'] : 160;
 $p = array_key_exists('p', $_GET) ? $_GET['p'] : 'true';
 
 @functionName($f,$w,$h,$p);
-//functionName($w,$h,$p);
+// functionName($w,$h,$p);
 
 function functionName($f,$w,$h,$p) {
-$root = 'http://m.llm.gov.my/';
+// $root = 'http://m.llm.gov.my';
 $im = file_get_contents($root.$f);
 
 //if($im===false){$im = file_get_contents('http://m.llm.gov.my/TrafficImages.aspx?ImagePath=HYEC4fuANi4FALhGgLSGmDWAlRFhYuAE7/is8T3p+RNFPZUfEEiGJMPUu7w9ueJlGRBwPvWPhhZaoeEBDuT4iVGbTfB6AGQyPmzGEf3uYcByC8Twlaoubg==');}//default image

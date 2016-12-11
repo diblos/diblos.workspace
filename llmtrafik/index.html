@@ -2,21 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="LLM Traffic Camera feeds." />
-    <meta name="keywords" content="LLM traffic camera, llm cctv, mha camera,llm traffic" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#1D1D1D">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LLM Traffic Camera Feeds and Toll Rates Calculator" />
+    <meta name="keywords" content="LLM traffic camera, llm cctv, mha camera,llm traffic, LLM toll rates" />
 	<meta http-equiv="cache-control" content="no-cache">
   <!--   <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />   -->
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>-->
+<script type="text/javascript" src="http://afarkas.github.io/lazysizes/lazysizes.min.js"></script>
+
 
 	<script type="text/javascript" src="http://s.nakedmaya.com/jstorage-min.js"></script>
-	<link rel="icon" href="/favicon.png" />
+  <link rel="icon" href="/favicon.png" />
 
-	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+	<!-- <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" rel="stylesheet">
-	<link href="index.css" rel="stylesheet">
+	<link href="index-min.css" rel="stylesheet">
 
 <title>LLM Trafik Cameras</title>
 
@@ -25,56 +32,37 @@
 
   <div data-role="page" id="pageone" data-theme="b">
 
-   <div data-role="panel" id="revealPanel" data-display="reveal" data-position-fixed="true">
-    <h2>Settings</h2>
-	 <form>
-	 <div class="ui-field-contain" style="display:block;">
-	  <p>Filters:</p>
+       <div data-role="panel" id="revealPanel" data-display="reveal" data-position-fixed="true">
+        <h2>Menu</h2>
 
-	  <fieldset class="ui-grid-solo">
-		<div class="ui-block-a">
-		<!-- <legend>&nbsp;</legend> -->
-		<input type="checkbox" name="cb-approved" id="cb-approved" class="custom" checked />
-		<label for="cb-approved">Approved</label>
-		<input type="checkbox" name="cb-napproved" id="cb-napproved" class="custom" checked />
-		<label for="cb-napproved">Not Approved</label>
+        <!-- <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p> -->
+    	<p />
+        <!-- <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Done</a> -->
+        <a href="#pageone" data-rel="close" data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-btn-active"><i class="fa fa-video-camera fa-1x"></i> Traffic Camera</a>
+        <a href="#pagetwo" data-rel="close" data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-b "><i class="fa fa-calculator fa-1x"></i> Toll Calculator</a>
+      </div>
 
-		</div>
+     <!-- <div data-role="page" id="pageone" data-theme="b"> -->
 
-    </fieldset>
+       <div data-role="panel" id="disclamer" data-position="right" data-display="overlay" data-position-fixed="true">
+        <h3>Disclaimer</h3>
+    	 <form>
+    	 <div class="ui-field-contain" style="display:block;">
 
-	 </div>
-      <!-- <input type="submit" data-inline="true" value="Submit"> -->
-    </form>
-    <!-- <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p> -->
-	<p />
-    <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Done</a>
-  </div>
+    	  <div class="ui-grid-solo">
+    		<div class="dDisclaimer" class="ui-block-a"></div>
+        </div>
 
-    <!-- <div data-role="page" id="pageone" data-theme="b"> -->
+    	 </div>
+        </form>
 
-   <div data-role="panel" id="disclamer" data-position="right" data-display="overlay" data-position-fixed="true">
-    <h3>Disclaimer</h3>
-	 <form>
-	 <div class="ui-field-contain" style="display:block;">
-
-	  <div class="ui-grid-solo">
-		<div id="dDisclaimer" class="ui-block-a">
-		</div>
-
-    </div>
-
-	 </div>
-
-    </form>
-
-	<p />
-    <a href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Agree</a>
-  </div>
+    	<p />
+        <a href="#pageone" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-left">Agree</a>
+      </div>
 
   <div data-role="header" data-position="fixed">
     <h1><abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr> Trafik Camera</h1>
-	 <a href="#revealPanel" class="ui-btn ui-btn-left ui-corner-all ui-icon-gear ui-btn-icon-notext" style="display:none;">Settings</a>
+	 <a href="#revealPanel" class="ui-btn ui-btn-left ui-corner-all ui-icon-bars ui-btn-icon-notext">Settings</a>
 	 <a href="#disclamer" class="ui-btn ui-btn-right ui-corner-all ui-icon-bullets ui-btn-icon-notext">Disclaimer</a>
   </div>
 
@@ -91,11 +79,100 @@
   </div>
 </div>
 
+    <div data-role="page" id="pagetwo" data-theme="b">
+
+     <div data-role="panel" id="revealPanel2" data-display="overlay" data-position-fixed="true">
+      <h2>Menu</h2>
+
+      <!-- <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p> -->
+    <p />
+      <!-- <a id="saveConfig" href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left">Done</a> -->
+      <a href="#pageone" data-rel="close" data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-b "><i class="fa fa-video-camera fa-1x"></i> Traffic Camera</a>
+      <a href="#pagetwo" data-rel="close" data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-btn-active"><i class="fa fa-calculator fa-1x"></i> Toll Calculator</a>
+    </div>
+
+       <div data-role="panel" id="disclamer2" data-position="right" data-display="overlay" data-position-fixed="true">
+      <h3>Disclaimer</h3>
+     <form>
+     <div class="ui-field-contain" style="display:block;">
+
+      <div class="ui-grid-solo">
+      <div class="dDisclaimer" class="ui-block-a"></div>
+      </div>
+
+     </div>
+      </form>
+
+    <p />
+      <a href="#pagetwo" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-left">Agree</a>
+    </div>
+
+    <div data-role="header" data-position="fixed">
+    <h1><abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr> Toll Calculator</h1>
+    <a href="#revealPanel2" class="ui-btn ui-btn-left ui-corner-all ui-icon-bars ui-btn-icon-notext">Settings</a>
+    <a href="#disclamer2" class="ui-btn ui-btn-right ui-corner-all ui-icon-bullets ui-btn-icon-notext">Disclaimer</a>
+  </div>
+  <div data-role="main" class="ui-content" >
+
+    <ul id="hListCalc" data-role="listview" data-inset="true" data-theme="b" style="display:block;" data-autodividers="false" data-filter="true" data-filter-placeholder="Search Highway">
+      <li data-role="list-divider">Camera List</li>
+    </ul>
+
+  </div>
+
+  <div data-role="footer" data-position="fixed">
+    <h1 style="visibility:visible">
+      <span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
+  </h1>
+  </div>
+</div>
+
+  <div data-role="page" id="pageStepTwo" data-theme="b">
+    <div data-role="header" data-position="fixed">
+    <h1 class="hname">pageStepTwo</h1>
+  <!-- <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a> -->
+  <a href="#pagetwo" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
+  </div>
+  <div data-role="main" class="ui-content" >
+
+<ul id="StepTwoList" data-role="listview" data-inset="true" data-theme="b" style="display:block;" data-autodividers="false" data-filter="true" data-filter-placeholder="Search Toll Plaza">
+  <li data-role="list-divider">List</li>
+</ul>
+
+  </div>
+
+  <div data-role="footer" data-position="fixed">
+    <h1 style="visibility:visible">
+      <span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
+  </h1>
+  </div>
+</div>
+
+  <div data-role="page" id="pageStepThree" data-theme="b">
+    <div data-role="header" data-position="fixed">
+    <h1 class="hname">pageStepThree</h1>
+  <a href="#pageStepTwo" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
+  </div>
+  <div data-role="main" class="ui-content" >
+
+<ul id="StepThreeList" data-role="listview" data-inset="true" data-theme="b" style="display:block;" data-autodividers="false" data-filter="true" data-filter-placeholder="Search Toll Plaza">
+  <li data-role="list-divider">List</li>
+</ul>
+
+  </div>
+
+  <div data-role="footer" data-position="fixed">
+    <h1 style="visibility:visible">
+      <span style="position:relative;top:-8px;"></span><a href="https://twitter.com/diblos" title="tweet me @diblos" target="blank"><i class="fa fa-comments fa-2x"></i></a>
+  </h1>
+  </div>
+</div>
+
   <div data-role="page" id="pagedetail" data-theme="b">
     <div data-role="header" data-position="fixed">
-    <h1 id="hname">Applicant Details</h1>
-	<!-- <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" onclick="goback();return false;">Back</a> -->
-  <a href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
+    <h1 class="hname">pagedetail</h1>
+      <a id="back2cam" href="#pageone" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
+      <a id="back2toll" href="#pagetwo" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-notext" data-transition="slide" data-direction="reverse">Back</a>
   </div>
   <div data-role="main" class="ui-content" >
 
@@ -133,7 +210,7 @@
               google_ad_height = 90;
               //-->
               </script>
-              <p id="myads" style="text-align:center;"><script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script></p>
+              <!-- <p id="myads" style="text-align:center;"><script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script></p> -->
 
 					</div>
 
@@ -142,6 +219,6 @@
 			</div>
 		</div>
 
-<script type="text/javascript" src="index-beta.js"></script>
+<script type="text/javascript" src="index-min.js"></script>
   </body>
 </html>
