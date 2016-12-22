@@ -29,3 +29,12 @@ user-select:none;
 #logo span{color:#8AC007;}
 .dimmed{color:gray;}
 .notdimmed{color:white;}
+
+@media (min-width: 300px) and (max-width: 700px){
+/* div#sDetails{} */
+img#ctl00_ContentPlaceHolder_imgPoster{width:100% !important;}
+}
+@media (min-width: 701px) {
+/* div#sDetails{} */
+img#ctl00_ContentPlaceHolder_imgPoster{width:450px !important;}
+}

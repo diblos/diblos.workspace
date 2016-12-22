@@ -5,51 +5,84 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
 
 $url=urldecode($_POST["u"]);
+//$url=urldecode($_REQUEST["u"]);
 
-if(!$url){$url='http://m.cinema.com.my/movies/content.aspx?search=2015.9977.themartians.21373';}
-//Code to access YQL using PHP
-$yql_query = "select * from html where url='".$url."' and xpath='//*[@id=\"container\"]/div[5]'";
-// $result=var_dump(getResultFromYQL(sprintf($yql_query, $value)));
-$result = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Falltableswithkeys');
-$result = str_replace("&#xd;","",$result);
-$result = preg_replace("/<input[^>]+\>/i", "", $result);
-$result= str_replace("<div id=\"accordion\">","<div id=\"accordion\" data-role=\"collapsible\" data-collapsed=\"true\" data-theme=\"b\">",$result);
-$result= str_replace("<div id=\"ShowtimesList\">","<div id=\"ShowtimesList\" data-role=\"collapsible\" data-collapsed=\"false\" data-theme=\"b\">",$result);
-$result= str_replace("<hr/>","",$result);
-$result= str_replace("src=\"http://www.cinema.com.my/","src=\"sposter.php?f=",$result);
+if(!$url){$url='http://m.cinema.com.my/movies/content.aspx?search=2014.9106.heartofthesea.19461';}
 
-echo $result;
+// $url = 'http://dbklpgis.scadatron.net/dbklpgisd1.xml';
+// $xml = new SimpleXMLElement($url, null, true);
+// echo $xml->results->quote[0]->AskRealtime;
+// print_r($xml);
 
-// $yql_query = "select * from html where url='".$url."' and xpath='//table[3]//tr[3]//tbody//td//span'";
-// $result=var_dump(getResultFromYQL(sprintf($yql_query, $value)));
-// $result2 = getResultFromYQL(sprintf($yql_query),'store%3A%2F%2Fdatatables.org%2Falltableswithkeys');
+$contents = file_get_contents($url);
+$contents = preg_replace("/<script.*?\/script>/s", "", $contents);
+// $contents = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $contents);
+$contents = strstr($contents, '<div class="sec_content">');
+$contents = substr($contents, 0, strpos($contents,'<input type="hidden" name="ctl00$ContentPlaceHolder$ctl00$hfMovieId"'));
 
-// echo json_encode($stack);
-// echo "[".$result.",".$result2."]";
+$contents = strip_selected_tags_by_id_or_class(array("ctl00_ContentPlaceHolder_ctl00_ddlShowDate"),$contents);
 
-//==================================================================================================================================================
+$contents= str_replace("<div id=\"accordion\">","<div id=\"accordion\" data-role=\"collapsible\" data-collapsed=\"true\" data-theme=\"b\">",$contents);
+$contents= str_replace("<div id=\"ShowtimesList\">","<div id=\"ShowtimesList\" data-role=\"collapsible\" data-collapsed=\"false\" data-theme=\"b\">",$contents);
 
-function getResultFromYQL($yql_query, $env = '') {
-    $yql_base_url = "http://query.yahooapis.com/v1/public/yql";
-    $yql_query_url = $yql_base_url . "?q=" . urlencode($yql_query);
-    $yql_query_url .= "&format=xml";
+print_r($contents);
 
-    if ($env != '') {
-        $yql_query_url .= '&env=' . urlencode($env);
-    }
-
-	//$yql_query_url = urlencode($yql_query_url);
-	// echo $yql_query_url;
-
-    $session = curl_init($yql_query_url);
-    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-    //Uncomment if you are behind a proxy
-    //curl_setopt($session, CURLOPT_PROXY, 'Your proxy url');
-    //curl_setopt($session, CURLOPT_PROXYPORT, 'Your proxy port');
-    //curl_setopt($session, CURLOPT_PROXYUSERPWD, 'Your proxy password');
-    $json = curl_exec($session);
-    curl_close($session);
-    // return json_decode($json);
-    return $json;
+function strip_selected_tags_by_id_or_class($array_of_id_or_class, $text)
+{
+   $name = implode('|', $array_of_id_or_class);
+   $regex = '#<(\w+)\s[^>]*(class|id)\s*=\s*[\'"](' . $name .
+            ')[\'"][^>]*>.*</\\1>#isU';
+   return(preg_replace($regex, '', $text));
 }
+
+function strip_html_tags( $text )
+{
+    $text = preg_replace(
+        array(
+          // Remove invisible content
+            '@<head[^>]*?>.*?</head>@siu',
+            '@<style[^>]*?>.*?</style>@siu',
+            '@<script[^>]*?.*?</script>@siu',
+            '@<object[^>]*?.*?</object>@siu',
+            '@<embed[^>]*?.*?</embed>@siu',
+            '@<applet[^>]*?.*?</applet>@siu',
+            '@<noframes[^>]*?.*?</noframes>@siu',
+            '@<noscript[^>]*?.*?</noscript>@siu',
+            '@<noembed[^>]*?.*?</noembed>@siu',
+          // Add line breaks before and after blocks
+            '@</?((address)|(blockquote)|(center)|(del))@iu',
+            '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+            '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+            '@</?((table)|(th)|(td)|(caption))@iu',
+            '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+            '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+            '@</?((frameset)|(frame)|(iframe))@iu',
+        ),
+        array(
+            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+            "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0",
+            "\n\$0", "\n\$0",
+        ),
+        $text );
+    return strip_tags( $text );
+}
+
+function cleanElements($html){
+
+ $search = array (
+       "'<script[^>]*?>.*?</script>'si",  //remove js
+        "'<style[^>]*?>.*?</style>'si", //remove css
+        "'<head[^>]*?>.*?</head>'si", //remove head
+       "'<link[^>]*?>.*?</link>'si", //remove link
+       "'<object[^>]*?>.*?</object>'si"
+                      );
+$replace = array (
+             "",
+             "",
+            "",
+            "",
+            ""
+);
+  return preg_replace ($search, $replace, $html);
+ }
 ?>
