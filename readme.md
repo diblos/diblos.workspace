@@ -1,4 +1,4 @@
-Diblo's Personal Workspace (DIBLOS)
+Diblos' Personal Workspace (DIBLOS)
 =====
  This repo consists diblos' personal projects.
 
