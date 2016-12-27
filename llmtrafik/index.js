@@ -1,9 +1,11 @@
-var t;var min = 15;
-var con_name=0;
+var t;
+// var min = 15;
+// var con_name=0;
 var nTitle = '';
 var nRole = "Website";
 var dVERSION = '';
 var toll_desc = '';
+var vAPI = atob('aHR0cDovL2FwaS5uYWtlZG1heWEuY29tL2xsbXRyYWZpay8=');
 
 var disclaimerText = '<p>1. You are agreed to access and use this '+nRole+' entirely at your own risk. All information provided here is provided by <abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr>. <abbr title="Lembaga Lebuhraya Malaysia">LLM</abbr> shall have the right to terminate or suspend its services at any time and for any reason, generally without notice.</p>';
 		disclaimerText+='<p>2. While every effort is made to ensure that the information provided on the '+nRole+' is current and accurate, the information provided is meant for informational purposes only and is not intended for mission or safety critical circumstances. You should not assume that the information on the '+nRole+' is always current or accurate, and other sources of this information should be consulted before making any decision to act on the information displayed on this '+nRole+'.</p>';
@@ -45,16 +47,14 @@ var resetlist = function(){
 var getcode = function(){
 		$.ajax({
 			method: "POST",
-            url: "http://api.nakedmaya.com/llmtrafik/hcode",
+            url: vAPI+"hcode",
 			data: '{"o": 1 }',
             dataType: "text",
 			//beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             // complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
               hcode = $.parseJSON(data);
-
-              console.log(hcode);
-
+             
               $.jStorage.set("ltver",dVERSION);
               $.jStorage.set("lthcode",data);
               console.log(">>"+$.jStorage.get("ltver"));
@@ -62,9 +62,9 @@ var getcode = function(){
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -74,7 +74,7 @@ var getcode = function(){
 var getlist = function(){
 		if(!hcode){setTimeout(function(){getlist();},200);return false;}
 		$.ajax({
-            url: "http://api.nakedmaya.com/llmtrafik/highway/list",
+            url: vAPI+"highway/list",
             dataType: "text",
 			//beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             complete: function() { $.mobile.loading('hide'); }, //Hide spinner
@@ -113,9 +113,9 @@ var getlist = function(){
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -125,7 +125,7 @@ var getlist = function(){
 var getlistCalc = function(){
 		if(!hcode){setTimeout(function(){getlistCalc();},200);return false;}
 		$.ajax({
-            url: "http://www.llm.gov.my/Calculator/getHighway",
+            url: vAPI+"toll/getHighway",
             dataType: "text",
 			//beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
             complete: function() { $.mobile.loading('hide'); }, //Hide spinner
@@ -138,7 +138,7 @@ var getlistCalc = function(){
                 //now json variable contains data in json format
 				var count = 0;
 
-				$(json).each(function() {
+				$(json.query.results.json).each(function() {
 
 					// console.log(this.name);
 					if(this.id){
@@ -169,9 +169,9 @@ var getlistCalc = function(){
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -179,14 +179,14 @@ var getlistCalc = function(){
 }
 
 var showcams = function(d){
-		var LLMroot = "http://vigroot.llm.gov.my";
-		var dURL = "http://api.nakedmaya.com/llmtrafik/highway/camera0/"+d;
+		// var LLMroot = "http://vigroot.llm.gov.my";
+		var dURL = vAPI+"highway/camera0/"+d;
 		$.ajax({
 			method: "GET",
             url: dURL,
             dataType: "text",
 			beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
-            complete: function() { $.mobile.loading('hide'); }, //Hide spinner
+            // complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
 
 				var count = 0;
@@ -243,9 +243,9 @@ var showcams = function(d){
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -266,13 +266,13 @@ function camname(d){
 
 
 var showEntries = function(d){
-		var dURL = "http://www.llm.gov.my/Calculator/getPlazaEnter/"+d;
+		var dURL = vAPI+"toll/getPlazaEnter/"+d;
 		$.ajax({
 			method: "GET",
             url: dURL,
             dataType: "text",
 			beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
-            complete: function() { $.mobile.loading('hide'); }, //Hide spinner
+            // complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
 
 				var count = 0;
@@ -282,7 +282,7 @@ var showEntries = function(d){
 				try {
 					//=======================================================================
 
-					$(json).each(function() {
+					$(json.query.results.json).each(function() {
 
 						// console.log(this.name);
 						if(this.id){
@@ -314,9 +314,9 @@ var showEntries = function(d){
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -324,13 +324,13 @@ var showEntries = function(d){
 }
 
 var showExits = function(c,d){
-		var dURL = "http://www.llm.gov.my/Calculator/getPlazaExit/"+c+"/"+d;
+		var dURL = vAPI+"toll/getPlazaExit/"+c+"/"+d;
 		$.ajax({
 			method: "GET",
             url: dURL,
             dataType: "text",
 			beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
-            complete: function() { $.mobile.loading('hide'); }, //Hide spinner
+            // complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
 
 				var count = 0;
@@ -340,7 +340,7 @@ var showExits = function(c,d){
 				try {
 					//=======================================================================
 
-					$(json).each(function() {
+					$(json.query.results.json).each(function() {
 
 						// console.log(this.name);
 						if(this.id){
@@ -379,9 +379,9 @@ var showExits = function(c,d){
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -389,13 +389,13 @@ var showExits = function(c,d){
 }
 
 var showTollRates = function(c,d,e){
-		var dURL = "http://www.llm.gov.my/Calculator/getTollRate/"+c+"/"+d+"/"+e;
+		var dURL = vAPI+"toll/getTollRate/"+c+"/"+d+"/"+e;
 		$.ajax({
 			method: "GET",
             url: dURL,
             dataType: "text",
 			beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
-            complete: function() { $.mobile.loading('hide'); }, //Hide spinner
+            // complete: function() { $.mobile.loading('hide'); }, //Hide spinner
             success: function(data) {
 
 				var count = 0;
@@ -405,14 +405,14 @@ var showTollRates = function(c,d,e){
 
 				try {
 					//=======================================================================
-					$(json).each(function() {
+					$(json.query.results.json).each(function() {
 
 						console.log(JSON.stringify(this));
 
 						var li = $( '<li swatch="a" style="text-align:left;">' );
 						distance = this.distance;			
 
-						li.append(getClassIcon(c,this.transCode)+'<span>Class '+this.transCode+'</span><span class="ui-li-count ui-btn-up-b ui-btn-corner-all" style="line-height: 20px;padding:0px 9px 0px 9px;font-size:14px">RM '+parseFloat(this.rate, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString()+'</span>')
+						li.append(getClassIcon(parseInt(c),parseInt(this.transCode))+'<span>Class '+this.transCode+'</span><span class="ui-li-count ui-btn-up-b ui-btn-corner-all" style="line-height: 20px;padding:0px 9px 0px 9px;font-size:14px">RM '+parseFloat(this.rate, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString()+'</span>')
 						$( "#camlist" ).append(li);
 
 				});
@@ -431,16 +431,16 @@ var showTollRates = function(c,d,e){
 				if($( "#camlist li" ).length>=1){//ADVERT
 					// $( "#camlist" ).append('<li swatch="a"><center>'+$( "#myads ins" ).html()+'</center></li>');
 				};
-				if(distance){$( "#camlist" ).append('<li data-role="list-divider">Distance '+distance+' km</li>');};
+				if(distance!='null'){$( "#camlist" ).append('<li data-role="list-divider">Distance '+distance+' km</li>');};
 				$('#camlist').listview( "refresh" );
 			}
 				//$.mobile.changePage("#pagedetail", { transition: "slide",role: "page" });
             },
            	error: function(x, t, m) {
 		        if(t==="timeout") {
-		            setTimeout(function(){alert("err:timeout");},1000);
+		            setTimeout(function(){console.log("err:timeout");},1000);
 		        } else {
-		        	alert(x+' '+t+' '+m);
+		        	console.log(x+' '+t+' '+m);
 		            // setTimeout(function(){alert('err:'+t);},1000);
 		        }
     		}
@@ -450,16 +450,16 @@ var showTollRates = function(c,d,e){
 function hcodeimg(cp){
 	var result=undefined;
 	if(hcode){
-          	$(hcode).each(function() {
-						if(this.highwayCode.trim()==cp.trim()){
-							result = this.datatype+','+this.data;
-						};
-					});
-					if(!result){
-						return hcode[hcode.length-1].datatype+','+hcode[hcode.length-1].data;/* get default signage which is always last */
-					}else{
-						return result;
-					}
+      	$(hcode).each(function() {
+			if(this.highwayCode.trim()==cp.trim()){
+				result = this.datatype+','+this.data;
+			};
+		});
+		if(!result){
+			return hcode[hcode.length-1].datatype+','+hcode[hcode.length-1].data;/* get default signage which is always last */
+		}else{
+			return result;
+		}
 	}else{
 		return result;
 	}
@@ -468,19 +468,18 @@ function hcodeimg(cp){
 function hcodeimg2(cp){
 	var result=undefined;
 	if(hcode){
-          	$(hcode).each(function() {
-
-          				if(cp!=undefined){
-							if(this.highwayTollCode==cp){
-								result = this.datatype+','+this.data;
-							};          					
-          				}
-					});
-					if(!result){
-						return hcode[hcode.length-1].datatype+','+hcode[hcode.length-1].data;/* get default signage which is always last */
-					}else{
-						return result;
-					}
+      	$(hcode).each(function() {
+				if(cp!=undefined){
+				if(this.highwayTollCode==cp){
+					result = this.datatype+','+this.data;
+				};          					
+				}
+		});
+		if(!result){
+			return hcode[hcode.length-1].datatype+','+hcode[hcode.length-1].data;/* get default signage which is always last */
+		}else{
+			return result;
+		}
 	}else{
 		return result;
 	}
@@ -488,6 +487,7 @@ function hcodeimg2(cp){
 
 function getClassIcon(h,cp){
 	console.log(h+':'+cp);
+
 	// return '<img style="margin:5px;vertical-align:bottom;filter: invert(50%);" src="https://maxcdn.icons8.com/windows8/PNG/64/Transport/motorcycle-64.png" title="Bike" width="64">';
 	var sepeda_motor = 'data:image/png;base64,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';
 	
@@ -548,57 +548,56 @@ function getClassIcon(h,cp){
 }
 
 var checkver = function (){
-  var result=false;
+  // var result=false;
   dVERSION=$.jStorage.get("ltver",999);
   console.log(dVERSION);
   $.ajax({
           method: "GET",
-          url: "http://api.nakedmaya.com/llmtrafik/hcode",
+          url: vAPI+"hcode",
           dataType: "text",
 		  beforeSend: function() { $.mobile.loading('show'); }, //Show spinner
           success: function(data) {
             var json = $.parseJSON(data);
             if (dVERSION==json.version){
-              result=true;
+              // result=true;
               hcode = $.parseJSON($.jStorage.get("lthcode"));
             }else{
               dVERSION=json.version;
-              result=false;
+              // result=false;
               getcode();
             }
           },
           error: function(x, t, m) {
-          result=false;
+          // result=false;
           getcode();
       }
       });
       console.log(dVERSION);
-  console.log(result);
 }
 
-var OK1= function(){$('#fOKdialog').dialog( 'close');return false;};
-var OK2= function(){
-								$.mobile.changePage("#customerpage", { transition: "slidedown",role: "page" });
-								return false;
-								};
-function invalid(smsg,x){
-		var icon = '';//'<i class="fa fa-exclamation-triangle fa-1x"></i>&nbsp;';
-		$('#fOKdialog p').css('display','block').html(icon+smsg);
-		$.mobile.changePage("#fOKdialog", { transition: "slidedown",role: "dialog" });
+// var OK1= function(){$('#fOKdialog').dialog( 'close');return false;};
+// var OK2= function(){
+// 								$.mobile.changePage("#customerpage", { transition: "slidedown",role: "page" });
+// 								return false;
+// 								};
+// function invalid(smsg,x){
+// 		var icon = '';//'<i class="fa fa-exclamation-triangle fa-1x"></i>&nbsp;';
+// 		$('#fOKdialog p').css('display','block').html(icon+smsg);
+// 		$.mobile.changePage("#fOKdialog", { transition: "slidedown",role: "dialog" });
 
-		switch(x)
-		{
-			case true:
-				$('#fOKdialog button').unbind('click');
-				$('#fOKdialog button').click(OK2);
-				break;
-			case false:
-				$('#fOKdialog button').unbind('click');
-				$('#fOKdialog button').click(OK1);
-				break;
-			default:
-				$('#fOKdialog button').unbind('click');
-				//$('#fOKdialog button').click(function(){navfunc('#'+x);$.mobile.changePage("#"+x, { transition: "slidedown",role: "page" });return false;});
-		}
+// 		switch(x)
+// 		{
+// 			case true:
+// 				$('#fOKdialog button').unbind('click');
+// 				$('#fOKdialog button').click(OK2);
+// 				break;
+// 			case false:
+// 				$('#fOKdialog button').unbind('click');
+// 				$('#fOKdialog button').click(OK1);
+// 				break;
+// 			default:
+// 				$('#fOKdialog button').unbind('click');
+// 				//$('#fOKdialog button').click(function(){navfunc('#'+x);$.mobile.changePage("#"+x, { transition: "slidedown",role: "page" });return false;});
+// 		}
 
-}
+// }
