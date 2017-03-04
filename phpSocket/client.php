@@ -18,9 +18,25 @@ if ($result === false) {
     echo "successfully connected to $address.\n";
 }
 
-$file = file_get_contents('favicon.ico');
+$file = file_get_contents('test.bmp');
 
 socket_write($socket,$file);
+//socket_write($socket,base64_encode($file));
+
+//echo base64_encode($file);
+//echo $file;
+
+// ===============================================
+// ob_end_flush(); // Have to flush the buffer first to avoid memory error
+
+// $fp = fopen('favicon.ico',"r") ;
+
+// while (! feof($fp)) {
+       // $buff = fread($fp,4096);
+       // //print $buff;
+	   // socket_write($socket,$buff);
+       // }
+// ===============================================
 
 echo "Closing socket...";
 socket_close($socket);
