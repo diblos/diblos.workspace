@@ -22,22 +22,23 @@ echo "Server started\n";
 $file = ''; // <-- this is 2 apostrophies by the way
 //sleep(2);
 $input = socket_read($client,$nsize);
-echo "$input".PHP_EOL;
 
-$checksum = crc32($input);
+
+$tmp = explode("|",$input);
+$checksum = crc32($tmp[1]);
 echo "CRC: $checksum".PHP_EOL;
+echo "$tmp[1]".PHP_EOL;
+if ($tmp[0]==$checksum){
+  $file = base64_decode($tmp[1]);
 
-$file = base64_decode($input);
+  // while(!feof($input)){
+  //   $file .= $input;
+  //   $input = socket_read($client,$nsize);
+  // }
 
-// while(!feof($input)){
-//   $file .= $input;
-//   $input = socket_read($client,$nsize);
-// }
-
-// file_put_contents('destination\i.bmp',$file);
-file_put_contents('destination\i.bin',$file);
-// fwrite($file, '23');
-// fclose($file);
+  file_put_contents('destination\i.bmp',$file);
+  // file_put_contents('destination\i.bin',$file);
+}
 
 socket_close($client);
 socket_close($mysock);
