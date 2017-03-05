@@ -18,14 +18,17 @@ if ($result === false) {
     echo "successfully connected to $address.\n";
 }
 
-$file = file_get_contents('test.bmp');
+// $file = file_get_contents('source\favicon.ico');
+$file = file_get_contents('source\h2scpi.bin');
 
-socket_write($socket,$file);
-//socket_write($socket,base64_encode($file));
+$checksum = crc32(base64_encode($file));
+// socket_write($socket,$file);
+socket_write($socket,base64_encode($file));
 
-//echo base64_encode($file);
-//echo $file;
+// echo base64_encode($file);
+// echo $file;
 
+echo "CRC: $checksum".PHP_EOL;
 // ===============================================
 // ob_end_flush(); // Have to flush the buffer first to avoid memory error
 
