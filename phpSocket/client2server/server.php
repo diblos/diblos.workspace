@@ -1,5 +1,5 @@
 <?php
-/* SERVER */
+/* CLIENT2SERVER : SERVER */
 define("KB", 1024, true);
 define("MB", 1048576, true);
 $address = "127.0.0.1";
@@ -36,7 +36,7 @@ if ($tmp[0]==$checksum){
   //   $input = socket_read($client,$nsize);
   // }
 
-  file_put_contents('destination\i.bmp',$file);
+  file_put_contents('..\destination\i.bmp',$file);
   // file_put_contents('destination\i.bin',$file);
 }
 

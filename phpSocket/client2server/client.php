@@ -1,5 +1,5 @@
 <?php
-/* CLIENT */
+/* CLIENT2SERVER : CLIENT */
 $address = "127.0.0.1";
 $port = 10000;
 
@@ -18,7 +18,7 @@ if ($result === false) {
     echo "successfully connected to $address.\n";
 }
 
-$file = file_get_contents('source\favicon.ico');
+$file = file_get_contents('..\source\favicon.ico');
 // $file = file_get_contents('source\h2scpi.bin');
 
 $checksum = crc32(base64_encode($file));
