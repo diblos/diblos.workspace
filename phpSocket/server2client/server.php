@@ -25,6 +25,9 @@ if($input!==false && !empty($input)){
   // $file = file_get_contents('..\source\favicon.ico');
   $file = file_get_contents('..\source\h2scpi.bin');
   $checksum = crc32(base64_encode($file));
+
+  echo "CRC : ".$checksum.PHP_EOL;
+
   $response = $checksum."|".base64_encode($file);
   // DISPLAY OUTPUT  BACK TO CLIENT
   sleep(1);

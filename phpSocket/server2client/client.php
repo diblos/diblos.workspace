@@ -29,14 +29,16 @@ $input = socket_read($socket,$nsize);
 
 $tmp = explode("|",$input);
 $checksum = crc32($tmp[1]);
-echo "CRC: $checksum".PHP_EOL;
-echo "$tmp[1]".PHP_EOL;
+
 if ($tmp[0]==$checksum){
+  echo "$tmp[1]".PHP_EOL;
+  echo strlen($tmp[1]).PHP_EOL;
   $file = base64_decode($tmp[1]);
 
   // file_put_contents('..\destination\i.bmp',$file);
   file_put_contents('..\destination\i.bin',$file);
 }
+echo "CRC: $checksum".PHP_EOL;
 
 echo "Closing socket...";
 socket_close($socket);
