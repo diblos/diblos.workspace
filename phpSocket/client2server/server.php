@@ -5,6 +5,8 @@ define("MB", 1048576, true);
 $address = "127.0.0.1";
 $port = "10000";
 
+require('..\lib.php');//HERE
+
 $nsize = 500*KB;
 
 $mysock = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
@@ -25,7 +27,8 @@ $input = socket_read($client,$nsize);
 
 
 $tmp = explode("|",$input);
-$checksum = crc32($tmp[1]);
+$checksum = crc16($tmp[1]);
+// $checksum = crc32($tmp[1]);
 echo "CRC: $checksum".PHP_EOL;
 echo "$tmp[1]".PHP_EOL;
 if ($tmp[0]==$checksum){

@@ -6,6 +6,8 @@ $address = "127.0.0.1";
 $port = "10000";
 $nsize = 500*KB;
 
+require('..\lib.php');//HERE
+
 $mysock = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
 
 socket_bind($mysock,$address,$port);
@@ -24,7 +26,8 @@ if($input!==false && !empty($input)){
 
   // $file = file_get_contents('..\source\favicon.ico');
   $file = file_get_contents('..\source\h2scpi.bin');
-  $checksum = crc32(base64_encode($file));
+  // $checksum = crc32(base64_encode($file));
+  $checksum = crc16(base64_encode($file),strlen(base64_encode($file)));
 
   echo "CRC : ".$checksum.PHP_EOL;
 

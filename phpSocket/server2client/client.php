@@ -6,6 +6,8 @@ $address = "127.0.0.1";
 $port = 10000;
 $nsize = 500*KB;
 
+require('..\lib.php');//HERE
+
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 if ($socket === false) {
     echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
@@ -28,7 +30,8 @@ $file = ''; // <-- this is 2 apostrophies by the way
 $input = socket_read($socket,$nsize);
 
 $tmp = explode("|",$input);
-$checksum = crc32($tmp[1]);
+// $checksum = crc32($tmp[1]);
+$checksum = crc16($tmp[1],strlen($tmp[1]));
 
 if ($tmp[0]==$checksum){
   echo "$tmp[1]".PHP_EOL;

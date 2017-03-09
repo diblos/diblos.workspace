@@ -3,6 +3,8 @@
 $address = "127.0.0.1";
 $port = 10000;
 
+require('..\lib.php');//HERE
+
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 if ($socket === false) {
     echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
@@ -21,7 +23,8 @@ if ($result === false) {
 $file = file_get_contents('..\source\favicon.ico');
 // $file = file_get_contents('source\h2scpi.bin');
 
-$checksum = crc32(base64_encode($file));
+$checksum = crc16(base64_encode($file));
+// $checksum = crc32(base64_encode($file));
 
 // socket_write($socket,$file);
 socket_write($socket,$checksum."|".base64_encode($file));
