@@ -6,7 +6,8 @@ $address = "127.0.0.1";
 $port = "10000";
 $nsize = 500*KB;
 
-require('..\lib.php');//HERE
+//require('..\lib.php');//HERE WIN
+require('../lib.php');//HERE LINUX
 
 $mysock = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
 

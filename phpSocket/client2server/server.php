@@ -5,7 +5,8 @@ define("MB", 1048576, true);
 $address = "127.0.0.1";
 $port = "10000";
 
-require('..\lib.php');//HERE
+//require('..\lib.php');//HERE WIN
+require('../lib.php');//HERE LINUX
 
 $nsize = 500*KB;
 
