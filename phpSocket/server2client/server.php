@@ -27,8 +27,6 @@ $input = socket_read($client,$nsize);
 if($input!==false && !empty($input)){
   echo "-----------------------------------------".PHP_EOL;
 
-  $file = file_get_contents(SOURCE_PATH.FILENAME);
-
   $checksum = CRCfile(SOURCE_PATH.FILENAME);
   $response = $checksum."|".FILENAME;
 
@@ -38,8 +36,34 @@ if($input!==false && !empty($input)){
   // READ RESPONSE
   $input = socket_read($client,$nsize);
   if(($input!==false && !empty($input))&&($input==ACK)){
-      echo "Sending file content...".PHP_EOL;
-      socket_write($client, $file);
+
+      if (file_exists(SOURCE_PATH.FILENAME)) {
+          $fp = fopen(SOURCE_PATH.FILENAME,"r") ;
+          if ($fp!==false){
+  							$total = 0;
+                while (! feof($fp)) {
+					       		$buff = fread($fp,CHUNK_SIZE);
+					       		echo "sending a block of ".FILENAME." [" . strlen($buff) ."]".PHP_EOL;
+					       		$total+=strlen($buff);
+					       		socket_write($client, $buff);
+
+                    // READ RESPONSE
+                    $input = socket_read($client,$nsize);
+
+				       	}
+				       	echo "have sent $total bytes".PHP_EOL;
+				       	fclose($fp);
+                // socket_write($client, null);
+					}
+
+
+          // echo "Sending file content...".PHP_EOL;
+          // FILE TRANSMISSION PROCESS START
+          // $file = file_get_contents(SOURCE_PATH.FILENAME);
+          // socket_write($client, $file);
+          // FILE TRANSMISSION PROCESS END
+      }
+
   }
 
 }else{

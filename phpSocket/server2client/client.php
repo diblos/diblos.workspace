@@ -38,8 +38,31 @@ if ((isset($tmp))&&(count($tmp)==2)){
     echo "CRC : $checksum, Filename : $filename".PHP_EOL;
     socket_write($socket,ACK);
 
-    $input = socket_read($socket,$nsize);
-    file_put_contents(DESTINATION_PATH.$filename,$input);
+    // FILE TRANSMISSION PROCESS START
+    // $input = socket_read($socket,$nsize);
+    // file_put_contents(DESTINATION_PATH.$filename,$input);
+
+
+    // echo fwrite($file,"Hello World. Testing!");
+
+
+
+
+    $file = fopen(DESTINATION_PATH.$filename,"w");
+    // while (false !== ($bytes = socket_recv($socket, $buf, CHUNK_SIZE, MSG_WAITALL))) {
+    while (false !== ($bytes = socket_recv($socket, $buf, 4000, MSG_WAITALL))) {
+        echo "Read $bytes bytes from socket_recv()...".PHP_EOL;
+        echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
+        fwrite($file,$buf,$bytes);
+        // sleep(1);
+        socket_write($socket,ACK);
+    }
+    fclose($file);
+
+
+
+    // FILE TRANSMISSION PROCESS END
+
     if( CRCfile(DESTINATION_PATH.$filename) == $checksum ){
       echo "checksum success.".PHP_EOL;
     }else{

@@ -1,6 +1,7 @@
 <?php
 define("ACK", 1, true);
 define("NACK", 0, true);
+define("CHUNK_SIZE", 4096, true);
 
 function CRCfile($filepath){
   $file = file_get_contents($filepath);
