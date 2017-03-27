@@ -2,6 +2,7 @@
 /* SERVER2CLIENT : CLIENT */
 define("KB", 1024, true);
 define("MB", 1048576, true);
+define("DESTINATION_PATH","C:/Users/lenovo/Documents/GitHub/workspace/phpSocket/server2client/",true);
 $address = "127.0.0.1";
 $port = 10000;
 $nsize = 500*KB;
@@ -39,11 +40,13 @@ if ($tmp[0]==$checksum){
   echo strlen($tmp[1]).PHP_EOL;
   $file = base64_decode($tmp[1]);
 
-  // file_put_contents('..\destination\i.bmp',$file);
-  file_put_contents('..\destination\i.bin',$file);
+  // file_put_contents(DESTINATION_PATH.'i.bmp',$FILE);
+  file_put_contents(DESTINATION_PATH.'i.bin',$file);
 }
 echo "CRC: $checksum".PHP_EOL;
 
 echo "Closing socket...";
 socket_close($socket);
+
+checkfile(DESTINATION_PATH."i.bin");
 ?>

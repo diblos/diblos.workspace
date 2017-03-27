@@ -1,4 +1,10 @@
 <?php
+function checkfile($filepath){
+  $file = file_get_contents($filepath);
+  $checksum = crc16($file,strlen($file));
+  echo "CRC : $checksum".PHP_EOL;
+}
+
 function crc16($string,$length=0){
 
     $auchCRCHi=array(    0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
