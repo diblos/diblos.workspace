@@ -3,6 +3,7 @@
 define("KB", 1024, true);
 define("MB", 1048576, true);
 define("SOURCE_PATH","C:/Users/lenovo/Desktop/workspace/4me/@work/forDeploy/files/20170113/final/",true);
+define("FILENAME","ContactlessCard.bin",true);
 $address = "127.0.0.1";
 $port = "10000";
 $nsize = 500*KB;
@@ -26,19 +27,20 @@ $input = socket_read($client,$nsize);
 if($input!==false && !empty($input)){
   echo "-----------------------------------------".PHP_EOL;
 
-  // $file = file_get_contents('\favicon.ico');
-  $file = file_get_contents(SOURCE_PATH.'ContactlessCard.bin');
-  // $checksum = crc32(base64_encode($file));
-  $checksum = crc16(base64_encode($file),strlen(base64_encode($file)));
+  $file = file_get_contents(SOURCE_PATH.FILENAME);
 
-  echo "CRC : ".$checksum.PHP_EOL;
+  $checksum = CRCfile(SOURCE_PATH.FILENAME);
+  $response = $checksum."|".FILENAME;
 
-  $response = $checksum."|".base64_encode($file);
   // DISPLAY OUTPUT  BACK TO CLIENT
-  sleep(1);
   socket_write($client, $response);
 
-checkfile(SOURCE_PATH.'ContactlessCard.bin');
+  // READ RESPONSE
+  $input = socket_read($client,$nsize);
+  if(($input!==false && !empty($input))&&($input==ACK)){
+      echo "Sending file content...".PHP_EOL;
+      socket_write($client, $file);
+  }
 
 }else{
   echo "wrong input: ".serialize($input).PHP_EOL;

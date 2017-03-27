@@ -1,8 +1,12 @@
 <?php
-function checkfile($filepath){
+define("ACK", 1, true);
+define("NACK", 0, true);
+
+function CRCfile($filepath){
   $file = file_get_contents($filepath);
   $checksum = crc16($file,strlen($file));
   echo "CRC : $checksum".PHP_EOL;
+  return $checksum;
 }
 
 function crc16($string,$length=0){

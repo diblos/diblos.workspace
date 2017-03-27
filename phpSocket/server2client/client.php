@@ -25,28 +25,33 @@ if ($result === false) {
     echo "successfully connected to $address.\n";
 }
 
-socket_write($socket,"GET");
+socket_write($socket,"GET");// <-- First Command for requesting file.
 
 $file = ''; // <-- this is 2 apostrophies by the way
-// sleep(2);
+
 $input = socket_read($socket,$nsize);
-
 $tmp = explode("|",$input);
-// $checksum = crc32($tmp[1]);
-$checksum = crc16($tmp[1],strlen($tmp[1]));
 
-if ($tmp[0]==$checksum){
-  echo "$tmp[1]".PHP_EOL;
-  echo strlen($tmp[1]).PHP_EOL;
-  $file = base64_decode($tmp[1]);
+if ((isset($tmp))&&(count($tmp)==2)){
+    $checksum = $tmp[0];
+    $filename = $tmp[1];
+    echo "CRC : $checksum, Filename : $filename".PHP_EOL;
+    socket_write($socket,ACK);
 
-  // file_put_contents(DESTINATION_PATH.'i.bmp',$FILE);
-  file_put_contents(DESTINATION_PATH.'i.bin',$file);
+    $input = socket_read($socket,$nsize);
+    file_put_contents(DESTINATION_PATH.$filename,$input);
+    if( CRCfile(DESTINATION_PATH.$filename) == $checksum ){
+      echo "checksum success.".PHP_EOL;
+    }else{
+      echo "checksum failed.".PHP_EOL;
+      unlink(DESTINATION_PATH.$filename);
+    }
+}else {
+    socket_write($socket,NACK);
 }
-echo "CRC: $checksum".PHP_EOL;
 
 echo "Closing socket...";
 socket_close($socket);
 
-checkfile(DESTINATION_PATH."i.bin");
+
 ?>
