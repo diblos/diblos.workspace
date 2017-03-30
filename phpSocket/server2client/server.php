@@ -37,6 +37,7 @@ if($input!==false && !empty($input)){
   $input = socket_read($client,$nsize);
   if(($input!==false && !empty($input))&&($input==ACK)){
 
+      // FILE TRANSMISSION PROCESS START
       if (file_exists(SOURCE_PATH.FILENAME)) {
           $fp = fopen(SOURCE_PATH.FILENAME,"r") ;
           if ($fp!==false){
@@ -56,13 +57,8 @@ if($input!==false && !empty($input)){
                 // socket_write($client, null);
 					}
 
-
-          // echo "Sending file content...".PHP_EOL;
-          // FILE TRANSMISSION PROCESS START
-          // $file = file_get_contents(SOURCE_PATH.FILENAME);
-          // socket_write($client, $file);
-          // FILE TRANSMISSION PROCESS END
       }
+      // FILE TRANSMISSION PROCESS END
 
   }
 

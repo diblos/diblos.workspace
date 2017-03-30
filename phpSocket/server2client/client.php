@@ -3,8 +3,10 @@
 define("KB", 1024, true);
 define("MB", 1048576, true);
 define("DESTINATION_PATH","C:/Users/lenovo/Documents/GitHub/workspace/phpSocket/server2client/",true);
-$address = "127.0.0.1";
-$port = 10000;
+// $address = "127.0.0.1";
+$address = "rdp.seamcloud.com";
+// $port = 10000;
+$port = 33223;
 $nsize = 500*KB;
 
 //require('..\lib.php');//HERE WIN
@@ -25,7 +27,8 @@ if ($result === false) {
     echo "successfully connected to $address.\n";
 }
 
-socket_write($socket,"GET");// <-- First Command for requesting file.
+// socket_write($socket,"GET");// <-- First Command for requesting file.
+socket_write($socket,"OTA:2{s:3:DEV;s:16:0001010053415931;}");// <-- First Command for requesting file.
 
 $file = ''; // <-- this is 2 apostrophies by the way
 
@@ -39,16 +42,7 @@ if ((isset($tmp))&&(count($tmp)==2)){
     socket_write($socket,ACK);
 
     // FILE TRANSMISSION PROCESS START
-    // $input = socket_read($socket,$nsize);
-    // file_put_contents(DESTINATION_PATH.$filename,$input);
-
-
-    // echo fwrite($file,"Hello World. Testing!");
-
-
-
-
-    $file = fopen(DESTINATION_PATH.$filename,"w");
+        $file = fopen(DESTINATION_PATH.$filename,"w");
     // while (false !== ($bytes = socket_recv($socket, $buf, CHUNK_SIZE, MSG_WAITALL))) {
     while (false !== ($bytes = socket_recv($socket, $buf, 4000, MSG_WAITALL))) {
         echo "Read $bytes bytes from socket_recv()...".PHP_EOL;
@@ -58,9 +52,6 @@ if ((isset($tmp))&&(count($tmp)==2)){
         socket_write($socket,ACK);
     }
     fclose($file);
-
-
-
     // FILE TRANSMISSION PROCESS END
 
     if( CRCfile(DESTINATION_PATH.$filename) == $checksum ){

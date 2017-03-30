@@ -1,7 +1,9 @@
 <?php
-define("ACK", 1, true);
-define("NACK", 0, true);
+define("ACK", 0, true);
+define("NACK", 1, true);
 define("CHUNK_SIZE", 4096, true);
+
+ini_set('error_reporting', E_ERROR);
 
 function CRCfile($filepath){
   $file = file_get_contents($filepath);
