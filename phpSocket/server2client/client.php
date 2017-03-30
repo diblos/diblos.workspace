@@ -35,7 +35,7 @@ $file = ''; // <-- this is 2 apostrophies by the way
 $input = socket_read($socket,$nsize);
 $tmp = explode("|",$input);
 
-if ((isset($tmp))&&(count($tmp)==2)){
+if ((isset($tmp))&&(count($tmp)==3)){
     $checksum = $tmp[0];
     $filename = $tmp[1];
     echo "CRC : $checksum, Filename : $filename".PHP_EOL;
