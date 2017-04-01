@@ -5,7 +5,7 @@ define("MB", 1048576, true);
 define("SOURCE_PATH","C:/Users/lenovo/Desktop/workspace/4me/@work/forDeploy/files/20170113/final/",true);
 define("FILENAME","ContactlessCard.bin",true);
 $address = "127.0.0.1";
-$port = "10000";
+$port = 10000;
 $nsize = 500*KB;
 
 //require('..\lib.php');//HERE WIN
@@ -27,16 +27,23 @@ $input = socket_read($client,$nsize);
 if($input!==false && !empty($input)){
   echo "-----------------------------------------".PHP_EOL;
 
+  echo "<< $input".PHP_EOL;
+
   $checksum = CRCfile(SOURCE_PATH.FILENAME);
-  $response = $checksum."|".FILENAME;
+  $response = $checksum."|".FILENAME."|".filesize(SOURCE_PATH.FILENAME);
 
   // DISPLAY OUTPUT  BACK TO CLIENT
+  echo ">> $response".PHP_EOL;
   socket_write($client, $response);
 
   // READ RESPONSE
   $input = socket_read($client,$nsize);
-  if(($input!==false && !empty($input))&&($input==ACK)){
 
+  var_dump($input);
+
+  if(($input!==false || !empty($input))&&($input==ACK)){
+
+      echo "sending file ".FILENAME.PHP_EOL;
       // FILE TRANSMISSION PROCESS START
       if (file_exists(SOURCE_PATH.FILENAME)) {
           $fp = fopen(SOURCE_PATH.FILENAME,"r") ;
@@ -46,6 +53,12 @@ if($input!==false && !empty($input)){
 					       		$buff = fread($fp,CHUNK_SIZE);
 					       		echo "sending a block of ".FILENAME." [" . strlen($buff) ."]".PHP_EOL;
 					       		$total+=strlen($buff);
+
+                    $csm = crc16($buff);
+                    $buffc = pack($csm,$buff);
+
+                    echo strlen($buff).">>".strlen($buffc).PHP_EOL;
+
 					       		socket_write($client, $buff);
 
                     // READ RESPONSE

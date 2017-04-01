@@ -3,10 +3,10 @@
 define("KB", 1024, true);
 define("MB", 1048576, true);
 define("DESTINATION_PATH","C:/Users/lenovo/Documents/GitHub/workspace/phpSocket/server2client/",true);
-// $address = "127.0.0.1";
-$address = "rdp.seamcloud.com";
-// $port = 10000;
-$port = 33223;
+$address = "127.0.0.1";
+// $address = "rdp.seamcloud.com";
+$port = 10000;
+// $port = 33223;
 $nsize = 500*KB;
 
 //require('..\lib.php');//HERE WIN
@@ -38,7 +38,8 @@ $tmp = explode("|",$input);
 if ((isset($tmp))&&(count($tmp)==3)){
     $checksum = $tmp[0];
     $filename = $tmp[1];
-    echo "CRC : $checksum, Filename : $filename".PHP_EOL;
+    $filesize = $tmp[2];
+    echo "CRC : $checksum, Filename : $filename, Filesize : $filesize".PHP_EOL;
     socket_write($socket,ACK);
 
     // FILE TRANSMISSION PROCESS START
@@ -47,6 +48,7 @@ if ((isset($tmp))&&(count($tmp)==3)){
     while (false !== ($bytes = socket_recv($socket, $buf, 4000, MSG_WAITALL))) {
         echo "Read $bytes bytes from socket_recv()...".PHP_EOL;
         echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
+        // echo strlen($buf).PHP_EOL;
         fwrite($file,$buf,$bytes);
         // sleep(1);
         socket_write($socket,ACK);

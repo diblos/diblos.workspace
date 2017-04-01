@@ -8,7 +8,7 @@ ini_set('error_reporting', E_ERROR);
 function CRCfile($filepath){
   $file = file_get_contents($filepath);
   $checksum = crc16($file,strlen($file));
-  echo "CRC : $checksum".PHP_EOL;
+  // echo "CRC : $checksum".PHP_EOL;
   return $checksum;
 }
 
