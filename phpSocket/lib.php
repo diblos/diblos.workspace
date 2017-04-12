@@ -1,10 +1,31 @@
 <?php
 define("ACK", "ACK", true);
 define("NACK", "NACK", true);
-define("CHUNK_SIZE", 4096, true);
+define("KB", 1024, true);
+define("MB", 1048576, true);
+// define("CHUNK_SIZE", 4096, true);
+define("CHUNK_SIZE", 2048, true);
 define('CRC16POLYN', 0x1021);
 
 ini_set('error_reporting', E_ERROR);
+
+function getNumberChunks($filesize,$chunksize)
+{
+  return ceil($filesize/$chunksize);
+}
+// http://www.phpsalt.com/lib/math/psCheckSum.html
+// Returns an XOR checksum in hex
+function psCheckSum($str)
+{
+        $chk = 0;
+        for($k = 0; $k < strlen($str); $k++)
+          {
+          $o = ord(substr($str,$k,1));
+          $chk = $chk ^ $o;
+          }
+        $res = substr("0" . dechex($chk),-2);
+        return $res;
+}
 
 function CRCfile($filepath){
   $file = file_get_contents($filepath);
@@ -140,7 +161,7 @@ class crc16
 
 
       //integer : generate(byte[] data, int dataoffset, int datalen, byte[] crc16, int crc16offset)
-      public function generate($data, $dataoffset, $datalen, $crc16, $crc16offset)
+      public function generate($data, $dataoffset, $datalen, &$crc16, &$crc16offset)
       {
           if ($datalen < 1)
               return -1;
@@ -160,7 +181,7 @@ class crc16
       }
 
       //bool : verify(byte[] data, int dataoffset, int datalen, byte[] crc16, int crc16offset)
-      public function verify($data, $dataoffset, $datalen, $crc16, $crc16offset)
+      public function verify($data, $dataoffset, $datalen, &$crc16, &$crc16offset)
       {
           $temp_crc = array(5);//byte
           $iResp;//integer
@@ -171,6 +192,32 @@ class crc16
 
           // return cp.util.arraycompare($crc16, $crc16offset, temp_crc, 0, 2);
           return array_diff($crc16, $crc16offset, $temp_crc, 0, 2);
+      }
+  }
+
+  class FileTransferObj {
+      public function __construct($filepath) {
+          $this->Filename = basename($filepath);
+          $this->Filesize = filesize($filepath);
+          $this->md5 = md5_file($filepath);
+          $this->NoOfChunks = getNumberChunks($this->Filesize,CHUNK_SIZE);
+          if (file_exists($filepath)) {
+            $chunks = array();
+            $fp = fopen($filepath,"r") ;
+            if ($fp!==false){
+                  while (! feof($fp)) {
+                      $dataObj = new stdClass();
+                      $buff = fread($fp,CHUNK_SIZE);
+                      $dataObj->data = $buff;
+                      $dataObj->checksum = psCheckSum($buff);
+                      array_push($chunks, $dataObj);
+                  }
+                  fclose($fp);
+            }
+            $this->Chunks = $chunks;
+          }else{
+            $this->Chunks = null;
+          }
       }
   }
 ?>

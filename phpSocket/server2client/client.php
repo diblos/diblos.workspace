@@ -1,15 +1,12 @@
 <?php
 /* SERVER2CLIENT : CLIENT */
-define("KB", 1024, true);
-define("MB", 1048576, true);
+require('../lib.php');
+
 define("DESTINATION_PATH","C:/Users/lenovo/Documents/GitHub/workspace/phpSocket/server2client/",true);
-// $address = "127.0.0.1";$port = 10000;
-$address = "rdp.seamcloud.com";$port = 33223;
+$address = "127.0.0.1";$port = 10000;
+// $address = "rdp.seamcloud.com";$port = 33223;
 
 $nsize = 500*KB;
-
-//require('..\lib.php');//HERE WIN
-require('../lib.php');//HERE LINUX
 
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 if ($socket === false) {
@@ -35,48 +32,66 @@ $file = ''; // <-- this is 2 apostrophies by the way
 $input = socket_read($socket,$nsize);
 $tmp = explode("|",$input);
 
-if ((isset($tmp))&&(count($tmp)==3)){
+if ((isset($tmp))&&(count($tmp)==4)){// HARDCODED STRING SIZE
     $checksum = $tmp[0];
     $filename = $tmp[1];
     $filesize = $tmp[2];
-    echo "CRC : $checksum, Filename : $filename, Filesize : $filesize".PHP_EOL;
-    socket_write($socket,ACK);
+    $chunkcount = $tmp[3];
+    echo "CRC : $checksum, Filename : $filename, Filesize : $filesize, Chunks count : $chunkcount".PHP_EOL;
+
+    //socket_write($socket,ACK);
 
     $dataleft = $filesize;
     $chunksize = CHUNK_SIZE;
     // FILE TRANSMISSION PROCESS START
     $file = fopen(DESTINATION_PATH.$filename,"w");
 
-    while (false !== ($bytes = socket_recv($socket, $buf, $chunksize, MSG_WAITALL))) {
-        echo "Read $bytes bytes from socket_recv()...".PHP_EOL;
-        echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
-        // echo strlen($buf).PHP_EOL;
-        $fwrite = fwrite($file,$buf,$bytes);
-        $dataleft = $dataleft - $fwrite;
+    for ($i=1; $i <= $chunkcount ; $i++){
+        echo ">> PROP|$i".PHP_EOL;
+        socket_write($socket,"PROP|$i");// REQUEST CHUNK PROPERTY
+        $input = socket_read($socket,$nsize);
+        echo "<< $input".PHP_EOL;
+        $tmp = explode("|",$input);
+        if ((isset($tmp))&&(count($tmp)==2)){// HARDCODED STRING SIZE
+            $chunksize = $tmp[0];
+            $chunkcrc = $tmp[1];
+            $RETRY = true;
+            while($RETRY){
+                  socket_write($socket,"GET|$i");// REQUEST CHUNK DATA
 
-        echo("Data left: $dataleft".PHP_EOL);
+                  $bytes = socket_recv($socket, $buf, $chunksize, MSG_WAITALL);
+                  echo "Read $bytes bytes from socket_recv()...".PHP_EOL;
+                  echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
 
-        //SANITY CHECKING
+                  //SANITY CHECKING
+                  if(psCheckSum($buf)==$chunkcrc){
+                    $fwrite = fwrite($file,$buf,$bytes);
+                    $dataleft = $dataleft - $fwrite;
 
+                    echo("Data left: $dataleft".PHP_EOL);
+                    $RETRY=false;
+                  }else{
+                    echo("checksum mismatched! Retrying...".PHP_EOL);
+                  }
 
-        // sleep(1);
-        socket_write($socket,ACK);
-        if ($dataleft<$chunksize) $chunksize = $dataleft;
+            }
+
+        }
     }
     fclose($file);
     // FILE TRANSMISSION PROCESS END
     // =============================================================================
-    // $lchecksum = CRCfile(DESTINATION_PATH.$filename);// CRC 16
+    // $lchecksum = CRCfile(DESTINATION_PATH.$filename);$lchecksumtype='crc16';// CRC 16
     // -----------------------------------------------------------------------------
-    $lchecksum = md5_file(DESTINATION_PATH.$filename);// MD5 HASH
+    $lchecksum = md5_file(DESTINATION_PATH.$filename);$lchecksumtype='md5';// MD5 HASH
     // =============================================================================
 
     if( $lchecksum == $checksum ){
-      echo "checksum success.".PHP_EOL;
+      echo "$lchecksumtype checksum success.".PHP_EOL;
       // echo($lchecksum).PHP_EOL);
       // echo(crc16("0123456789").PHP_EOL);
     }else{
-      echo "checksum failed.".PHP_EOL;
+      echo "$lchecksumtype checksum failed.".PHP_EOL;
       unlink(DESTINATION_PATH.$filename);
     }
 }else {
