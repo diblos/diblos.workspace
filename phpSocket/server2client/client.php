@@ -3,8 +3,8 @@
 require('../lib.php');
 
 define("DESTINATION_PATH","C:/Users/lenovo/Documents/GitHub/workspace/phpSocket/server2client/",true);
-$address = "127.0.0.1";$port = 10000;
-// $address = "rdp.seamcloud.com";$port = 33223;
+// $address = "127.0.0.1";$port = 10000;
+$address = "rdp.seamcloud.com";$port = 33223;
 
 $nsize = 500*KB;
 
@@ -67,13 +67,12 @@ if ((isset($tmp))&&(count($tmp)==4)){// HARDCODED STRING SIZE
                   if(psCheckSum($buf)==$chunkcrc){
                     $fwrite = fwrite($file,$buf,$bytes);
                     $dataleft = $dataleft - $fwrite;
-
                     echo("Data left: $dataleft".PHP_EOL);
+                    if ($dataleft==0) socket_write($socket,ACK);// SEND ACK
                     $RETRY=false;
                   }else{
                     echo("checksum mismatched! Retrying...".PHP_EOL);
                   }
-
             }
 
         }
