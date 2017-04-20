@@ -24,6 +24,7 @@ if ($result === false) {
 }
 $command_str = "OTA:2{s:3:DEV;s:16:0001010053415931;}";
 // $command_str = "OTA:2{s:3:DEV;s:3:123;}";
+// $command_str = "OTA:2{s:3:DEV;s:4:9999;}";
 
 socket_write($socket,$command_str);// <-- First Command for requesting file.
 
@@ -64,7 +65,8 @@ if ((isset($tmp))&&(count($tmp)==4)){// HARDCODED STRING SIZE
                   echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
 
                   //SANITY CHECKING
-                  if(psCheckSum($buf)==$chunkcrc){
+                  // if(psCheckSum(bin2hex($buf))==$chunkcrc){
+                  if(md5(bin2hex($buf))==$chunkcrc){
                     $fwrite = fwrite($file,$buf,$bytes);
                     $dataleft = $dataleft - $fwrite;
                     echo("Data left: $dataleft".PHP_EOL);

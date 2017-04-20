@@ -55,7 +55,7 @@ if($input!==false && !empty($input)){
                         switch ($request_type) {
                             case 'PROP':
                                 // CHUNK PROPERTY REQUEST
-                                $response = strlen($r->Chunks[$chunk_number-1]->data)."|".$r->Chunks[$chunk_number-1]->checksum;
+                                $response = strlen($r->Chunks[$chunk_number-1]->data)."|".$r->Chunks[$chunk_number-1]->checksum2;
                                 // DISPLAY OUTPUT  BACK TO CLIENT
                                 echo ">> $response".PHP_EOL;
                                 socket_write($client, $response);

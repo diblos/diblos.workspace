@@ -15,7 +15,7 @@ function getNumberChunks($filesize,$chunksize)
 }
 // http://www.phpsalt.com/lib/math/psCheckSum.html
 // Returns an XOR checksum in hex
-function psCheckSum($str)
+function psCheckSumHex($str)
 {
         $chk = 0;
         for($k = 0; $k < strlen($str); $k++)
@@ -25,6 +25,18 @@ function psCheckSum($str)
           }
         $res = substr("0" . dechex($chk),-2);
         return $res;
+}
+
+// Returns an XOR checksum
+function psCheckSum($str)
+{
+        $chk = 0;
+        for($k = 0; $k < strlen($str); $k++)
+          {
+          $o = ord(substr($str,$k,1));
+          $chk = $chk ^ $o;
+          }
+        return $chk;
 }
 
 function CRCfile($filepath){
@@ -210,6 +222,7 @@ class crc16
                       $buff = fread($fp,CHUNK_SIZE);
                       $dataObj->data = $buff;
                       $dataObj->checksum = psCheckSum($buff);
+                      $dataObj->checksum2 = psCheckSum(bin2hex($buff));
                       array_push($chunks, $dataObj);
                   }
                   fclose($fp);
