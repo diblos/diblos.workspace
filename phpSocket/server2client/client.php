@@ -53,11 +53,12 @@ if ((isset($tmp))&&(count($tmp)==4)){// HARDCODED STRING SIZE
         $input = socket_read($socket,$nsize);
         echo "<< $input".PHP_EOL;
         $tmp = explode("|",$input);
-        if ((isset($tmp))&&(count($tmp)==2)){// HARDCODED STRING SIZE
+        if ((isset($tmp))&&(count($tmp)==3)){// HARDCODED STRING SIZE
             $chunksize = $tmp[0];
             $chunkcrc = $tmp[1];
             $RETRY = true;
             while($RETRY){
+                  echo ">> GET|$i".PHP_EOL;
                   socket_write($socket,"GET|$i");// REQUEST CHUNK DATA
 
                   $bytes = socket_recv($socket, $buf, $chunksize, MSG_WAITALL);
@@ -65,8 +66,8 @@ if ((isset($tmp))&&(count($tmp)==4)){// HARDCODED STRING SIZE
                   echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
 
                   //SANITY CHECKING
-                  // if(psCheckSum(bin2hex($buf))==$chunkcrc){
-                  if(md5(bin2hex($buf))==$chunkcrc){
+                  if(psCheckSum($buf)==$chunkcrc){
+                  // if(md5(bin2hex($buf))==$chunkcrc){
                     $fwrite = fwrite($file,$buf,$bytes);
                     $dataleft = $dataleft - $fwrite;
                     echo("Data left: $dataleft".PHP_EOL);

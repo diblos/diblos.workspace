@@ -9,10 +9,6 @@ define('CRC16POLYN', 0x1021);
 
 ini_set('error_reporting', E_ERROR);
 
-function getNumberChunks($filesize,$chunksize)
-{
-  return ceil($filesize/$chunksize);
-}
 // http://www.phpsalt.com/lib/math/psCheckSum.html
 // Returns an XOR checksum in hex
 function psCheckSumHex($str)
@@ -212,7 +208,6 @@ class crc16
           $this->Filename = basename($filepath);
           $this->Filesize = filesize($filepath);
           $this->md5 = md5_file($filepath);
-          $this->NoOfChunks = getNumberChunks($this->Filesize,CHUNK_SIZE);
           if (file_exists($filepath)) {
             $chunks = array();
             $fp = fopen($filepath,"r") ;
@@ -222,7 +217,7 @@ class crc16
                       $buff = fread($fp,CHUNK_SIZE);
                       $dataObj->data = $buff;
                       $dataObj->checksum = psCheckSum($buff);
-                      $dataObj->checksum2 = psCheckSum(bin2hex($buff));
+	                    $dataObj->md5 = md5($buff);
                       array_push($chunks, $dataObj);
                   }
                   fclose($fp);
@@ -231,6 +226,7 @@ class crc16
           }else{
             $this->Chunks = null;
           }
+          $this->NoOfChunks = sizeof($this->Chunks);
       }
   }
 ?>
