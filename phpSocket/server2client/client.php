@@ -61,10 +61,12 @@ if ((isset($tmp))&&(count($tmp)==4)){// HARDCODED STRING SIZE
                   echo ">> GET|$i".PHP_EOL;
                   socket_write($socket,"GET|$i");// REQUEST CHUNK DATA
 
-                  $bytes = socket_recv($socket, $buf, $chunksize, MSG_WAITALL);
+                  $bytes = socket_recv($socket, $obuf, $chunksize, MSG_WAITALL);
                   echo "Read $bytes bytes from socket_recv()...".PHP_EOL;
                   echo (socket_strerror(socket_last_error($socket)).PHP_EOL);
 
+                  $buf = base64_decode($obuf);
+                  echo(strlen($obuf)."=>".strlen($buf).PHP_EOL);
                   //SANITY CHECKING
                   if(psCheckSum($buf)==$chunkcrc){
                   // if(md5(bin2hex($buf))==$chunkcrc){
